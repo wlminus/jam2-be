@@ -1,0 +1,133 @@
+entity AppConst {
+	constKey ConfigKey
+	constValue String maxlength(1000)
+}
+enum ConfigKey {
+	HOME_PRODUCT_LIST,
+    REALESE_STATUS
+}
+
+entity Category {
+	categoryName String maxlength(300),
+    description String maxlength(500),
+    slug String maxlength(300) required unique
+}
+entity Customer {
+	customerName String maxlength(300),
+    tel String maxlength(100),
+    email String maxlength(300)
+}
+entity Media {
+    mediaName String maxlength(40),
+    mediaType String maxlength(50),
+    mediaURL String maxlength(200)
+    mediaAlt String maxlength(500)
+    uploadYear String maxlength(20),
+    uploadMonth String maxlength(20)
+}
+entity ShopNew {
+	newTitle String maxlength(500),
+    newContent String maxlength(3000),
+    newType String maxlength(300),
+    createdBy String maxlength(200),
+    createdDate Long,
+    modifiedBy String maxlength(200),
+    modifiedDate Long
+}
+entity Product {
+    name String maxlength(300),
+    productCode String maxlength(100),
+    price Long min(1) max(100000000) required,
+    finalPrice Long min(1) max(100000000) required,
+    discount Double min(1) max(100),
+    releaseType String maxlength(200),
+    releaseStatus String maxlength(200),
+    description String maxlength(1000),
+    materialDesc String maxlength(500),
+    slug String maxlength(300) unique,
+	isValid Boolean
+    createdBy String maxlength(200),
+    createdDate Long,
+    modifiedBy String maxlength(200),
+    modifiedDate Long
+}
+entity ProductSize {
+    sizeName String maxlength(200),
+    description String maxlength(500)
+}
+entity ShopOrder {
+	orderStatus String maxlength(100),
+    totalPrice Double min(0) required,
+    createdBy String maxlength(200),
+    createdDate Long,
+    modifiedBy String maxlength(200),
+    modifiedDate Long
+}
+entity OrderDesc {
+	count Long min(1) required,
+    orderPrice Double min(0) required,
+    finalPrice Double min(0) required,
+}
+entity Tag {
+	tag String maxlength(300),
+    description String maxlength(500)
+}
+entity Province {
+	provinceName String maxlength(200),
+    provinceType String maxlength(100)
+}
+entity District {
+	districtName String maxlength(200),
+    districtType String maxlength(100)
+}
+entity Ward {
+	wardName String maxlength(200),
+    wardType String maxlength(100)
+}
+
+relationship ManyToOne {
+	Product{category(categoryName)} to Category
+}
+relationship ManyToOne {
+	Customer to Province,
+    Customer to District,
+	Customer to Ward,
+}
+relationship OneToMany {
+	Customer to ShopOrder
+}
+relationship OneToOne {
+	Customer to User
+}
+relationship ManyToOne {
+	ShopOrder to Province,
+    ShopOrder to District,
+	ShopOrder to Ward
+}
+relationship OneToOne {
+	OrderDesc to Product
+}
+relationship OneToMany {
+	ShopOrder to OrderDesc
+}
+relationship OneToMany {
+	Province to District
+}
+relationship OneToMany {
+	District to Ward
+}
+relationship ManyToMany {
+	Product{media} to Media{product}
+}
+relationship ManyToMany {
+	Product to ProductSize
+}
+relationship ManyToMany {
+	Product{tag} to Tag{product},
+    ShopNew{tag} to Tag{new}
+}
+
+paginate AppConst, District, Tag with infinite-scroll
+paginate Product, ShopOrder, Ward, ShopNew, Customer, Media with pagination
+
+service Product with serviceImpl

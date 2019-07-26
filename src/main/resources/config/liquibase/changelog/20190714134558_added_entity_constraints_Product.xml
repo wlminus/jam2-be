@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Product.
+    -->
+    <changeSet id="20190714134558-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="product"
+                                 constraintName="fk_product_category_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="product_media"
+                                 constraintName="fk_product_media_product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="media_id"
+                                 baseTableName="product_media"
+                                 constraintName="fk_product_media_media_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="media"/>
+        
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="product_product_size"
+                                 constraintName="fk_product_product_size_product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_size_id"
+                                 baseTableName="product_product_size"
+                                 constraintName="fk_product_product_size_product_size_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_size"/>
+        
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="product_tag"
+                                 constraintName="fk_product_tag_product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="tag_id"
+                                 baseTableName="product_tag"
+                                 constraintName="fk_product_tag_tag_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"/>
+        
+    </changeSet>
+</databaseChangeLog>
