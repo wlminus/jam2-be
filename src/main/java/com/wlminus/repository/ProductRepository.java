@@ -33,7 +33,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         countQuery = "select count(distinct product) from Product product")
     Page<Product> findAllWithMedia(Pageable pageable);
 
-    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.tags left join fetch product.category where product.category.slug = :catSlug",
+    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.category.slug = :catSlug",
         countQuery = "select count(distinct product) from Product product")
     Page<Product> findAllByCategorySlug(@Param("catSlug") String catSlug, Pageable pageable);
+
+    @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%")
+    Page<Product> searchProduct(@Param("query") String query);
 }
