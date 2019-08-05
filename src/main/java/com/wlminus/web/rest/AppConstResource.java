@@ -127,4 +127,18 @@ public class AppConstResource {
         appConstRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/app-consts/key/{key}")
+    public ResponseEntity<AppConst> getOneAppConstByKey(@PathVariable String key) {
+        log.debug("REST request to get AppConst : {}", key);
+        Optional<AppConst> appConst = appConstRepository.findOneByKey(key);
+        return ResponseUtil.wrapOrNotFound(appConst);
+    }
+
+    @GetMapping("/app-consts/list/key/{key}")
+    public ResponseEntity<List<AppConst>> getManyAppConstByKey(@PathVariable String key) {
+        log.debug("REST request to get AppConst : {}", key);
+        List<AppConst> appConst = appConstRepository.findManyByKey(key);
+        return ResponseEntity.ok().body(appConst);
+    }
 }

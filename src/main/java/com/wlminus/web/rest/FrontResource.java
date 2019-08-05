@@ -1,5 +1,6 @@
 package com.wlminus.web.rest;
 import com.wlminus.domain.*;
+import com.wlminus.repository.AppConstRepository;
 import com.wlminus.repository.CategoryRepository;
 import com.wlminus.repository.ProductRepository;
 import com.wlminus.service.ProductService;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/front")
+@RequestMapping("/api/front")
 public class FrontResource {
     private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
 
@@ -37,11 +38,13 @@ public class FrontResource {
     private final CategoryRepository categoryRepository;
     private final ProductService productService;
     private final ProductRepository productRepository;
+    private final AppConstRepository appConstRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository) {
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
+        this.appConstRepository = appConstRepository;
     }
 
 
@@ -76,13 +79,13 @@ public class FrontResource {
     @GetMapping("/products/search/{query}")
     public ResponseEntity<List<Product>> searchProduct(@PathVariable String query, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("FRONT. REST request to search product by query: {}", query);
-        Page<Product> page = productRepository.searchProduct(query);
+        Page<Product> page = productRepository.searchProduct(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     @PostMapping("/card")
-    public ResponseEntity<ShopOrder> createProduct(@Valid @RequestBody CartDTO cart) throws URISyntaxException {
+    public void createProduct(@Valid @RequestBody CartDTO cart) throws URISyntaxException {
         log.debug("REST request to create order : {}", cart);
         if (cart.getId() != null) {
             throw new BadRequestAlertException("A new order cannot already have an ID", ENTITY_NAME, "idexists");
@@ -95,13 +98,23 @@ public class FrontResource {
         customer.setDistrict(cart.getDistrict());
         customer.setWard(cart.getWard());
 
-        for (ProductInCartDTO desc: cart.getListCard()) {
-            OrderDesc tmp = new OrderDesc();
+//        for (ProductInCartDTO desc: cart.getListCard()) {
+//            OrderDesc tmp = new OrderDesc();
+//        }
+        return;
+    }
 
-        }
-//        Product result = productService.save(product);
-//        return ResponseEntity.created(new URI("/api/products/" + result.getId()))
-//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-//            .body(result);
+    @GetMapping("/home/key/{configKey}")
+    public ResponseEntity<AppConst> getOneAppConstByKey(@PathVariable String configKey) {
+        log.debug("FRONT. REST request to get config by key : {}", configKey);
+        Optional<AppConst> appConst = appConstRepository.findOneByKey(configKey);
+        return ResponseUtil.wrapOrNotFound(appConst);
+    }
+
+    @GetMapping("/home/key/list/{configKey}")
+    public ResponseEntity<List<AppConst>> getManyAppConstByKey(@PathVariable String configKey) {
+        log.debug("FRONT. REST request to get config by key : {}", configKey);
+        List<AppConst> appConst = appConstRepository.findManyByKey(configKey);
+        return ResponseEntity.ok().body(appConst);
     }
 }
