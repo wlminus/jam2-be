@@ -2,9 +2,9 @@ package com.wlminus.web.rest;
 
 import com.wlminus.JamilaApp;
 import com.wlminus.domain.AppConst;
+import com.wlminus.domain.enumeration.ConfigKey;
 import com.wlminus.repository.AppConstRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -26,16 +26,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.wlminus.domain.enumeration.ConfigKey;
 /**
  * Integration tests for the {@Link AppConstResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class AppConstResourceIT {
 
-    private static final ConfigKey DEFAULT_CONST_KEY = ConfigKey.HOME_PRODUCT_LIST;
-    private static final ConfigKey UPDATED_CONST_KEY = ConfigKey.REALESE_STATUS;
+    private static final ConfigKey DEFAULT_CONST_KEY = ConfigKey.HOME_SLIDE_ON;
+    private static final ConfigKey UPDATED_CONST_KEY = ConfigKey.HOME_SLIDE_LIST;
 
     private static final String DEFAULT_CONST_VALUE = "AAAAAAAAAA";
     private static final String UPDATED_CONST_VALUE = "BBBBBBBBBB";
@@ -157,7 +155,7 @@ public class AppConstResourceIT {
             .andExpect(jsonPath("$.[*].constKey").value(hasItem(DEFAULT_CONST_KEY.toString())))
             .andExpect(jsonPath("$.[*].constValue").value(hasItem(DEFAULT_CONST_VALUE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAppConst() throws Exception {

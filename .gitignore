@@ -10,6 +10,7 @@
 /node/
 node_tmp/
 node_modules/
+upload/
 npm-debug.log.*
 /.awcache/*
 /.cache-loader/*

@@ -1,11 +1,12 @@
 package com.wlminus.web.rest;
+
 import com.wlminus.domain.*;
 import com.wlminus.repository.AppConstRepository;
 import com.wlminus.repository.CategoryRepository;
+import com.wlminus.repository.MediaRepository;
 import com.wlminus.repository.ProductRepository;
 import com.wlminus.service.ProductService;
 import com.wlminus.service.dto.CartDTO;
-import com.wlminus.service.dto.ProductInCartDTO;
 import com.wlminus.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -19,10 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.terracotta.context.annotations.ContextAttribute;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,14 +40,15 @@ public class FrontResource {
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final AppConstRepository appConstRepository;
+    private final MediaRepository mediaRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository) {
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
         this.appConstRepository = appConstRepository;
+        this.mediaRepository = mediaRepository;
     }
-
 
     @GetMapping("/categories")
     public List<Category> getAllCategories() {
@@ -104,17 +106,31 @@ public class FrontResource {
         return;
     }
 
-    @GetMapping("/home/key/{configKey}")
-    public ResponseEntity<AppConst> getOneAppConstByKey(@PathVariable String configKey) {
-        log.debug("FRONT. REST request to get config by key : {}", configKey);
-        Optional<AppConst> appConst = appConstRepository.findOneByKey(configKey);
-        return ResponseUtil.wrapOrNotFound(appConst);
+//    @GetMapping("/home/key/{configKey}")
+//    public ResponseEntity<AppConst> getOneAppConstByKey(@PathVariable String configKey) {
+//        log.debug("FRONT. REST request to get config by key : {}", configKey);
+//        Optional<AppConst> appConst = appConstRepository.findOneByKey(configKey);
+//        return ResponseUtil.wrapOrNotFound(appConst);
+//    }
+
+    @GetMapping("/config")
+    public ResponseEntity<List<AppConst>> getManyAppConstByKey() {
+        log.debug("FRONT. REST request to get config list :");
+        List<AppConst> appConst = appConstRepository.findAll();
+        return ResponseEntity.ok().body(appConst);
     }
 
-    @GetMapping("/home/key/list/{configKey}")
-    public ResponseEntity<List<AppConst>> getManyAppConstByKey(@PathVariable String configKey) {
-        log.debug("FRONT. REST request to get config by key : {}", configKey);
-        List<AppConst> appConst = appConstRepository.findManyByKey(configKey);
-        return ResponseEntity.ok().body(appConst);
+    @GetMapping("/config/media/{mediaList}")
+    public ResponseEntity<List<Media>> getMediaByConfig(@PathVariable String mediaList) {
+        log.debug("FRONT. REST request to get media by config list :");
+        String[] listMediaId = mediaList.split(",");
+        List<Media> dataReturn = new ArrayList<>();
+        for (String id : listMediaId) {
+            Optional<Media> tmp = mediaRepository.findById(Long.parseLong(id));
+            if (tmp.isPresent()) {
+                dataReturn.add(tmp.get());
+            }
+        }
+        return ResponseEntity.ok().body(dataReturn);
     }
 }
