@@ -1,6 +1,8 @@
 package com.wlminus.web.rest;
 
+import com.wlminus.config.Constants;
 import com.wlminus.domain.*;
+import com.wlminus.domain.enumeration.ConfigKey;
 import com.wlminus.repository.AppConstRepository;
 import com.wlminus.repository.CategoryRepository;
 import com.wlminus.repository.MediaRepository;
@@ -120,15 +122,39 @@ public class FrontResource {
         return ResponseEntity.ok().body(appConst);
     }
 
-    @GetMapping("/config/media/{mediaList}")
-    public ResponseEntity<List<Media>> getMediaByConfig(@PathVariable String mediaList) {
+    @GetMapping("/config/media")
+    public ResponseEntity<List<Media>> getMediaByConfig() {
         log.debug("FRONT. REST request to get media by config list :");
-        String[] listMediaId = mediaList.split(",");
+        List<AppConst> appConstList = appConstRepository.findAll();
         List<Media> dataReturn = new ArrayList<>();
-        for (String id : listMediaId) {
-            Optional<Media> tmp = mediaRepository.findById(Long.parseLong(id));
-            if (tmp.isPresent()) {
-                dataReturn.add(tmp.get());
+        for (AppConst item: appConstList) {
+            if (item.getConstKey() == ConfigKey.HOME_SLIDE_LIST) {
+                String[] listMediaId = item.getConstValue().split(",");
+                for (String id : listMediaId) {
+                    Optional<Media> tmp = mediaRepository.findById(Long.parseLong(id));
+                    if (tmp.isPresent()) {
+                        dataReturn.add(tmp.get());
+                    }
+                }
+            }
+        }
+        return ResponseEntity.ok().body(dataReturn);
+    }
+
+    @GetMapping("/config/product")
+    public ResponseEntity<List<Product>> getcProductByConfig() {
+        log.debug("FRONT. REST request to get hot product by config list :");
+        List<AppConst> appConstList = appConstRepository.findAll();
+        List<Product> dataReturn = new ArrayList<>();
+        for (AppConst item: appConstList) {
+            if (item.getConstKey() == ConfigKey.HOT_PRODUCT_LIST) {
+                String[] listMediaId = item.getConstValue().split(",");
+                for (String id : listMediaId) {
+                    Optional<Product> tmp = productRepository.findById(Long.parseLong(id));
+                    if (tmp.isPresent()) {
+                        dataReturn.add(tmp.get());
+                    }
+                }
             }
         }
         return ResponseEntity.ok().body(dataReturn);
