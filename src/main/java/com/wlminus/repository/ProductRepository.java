@@ -26,6 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.id =:id")
     Optional<Product> findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query("select product from Product product left join fetch product.media where product.id =:id")
+    Optional<Product> findOneWithMedia(@Param("id") Long id);
+
     @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.slug =:slug")
     Optional<Product> findOneBySlug(@Param("slug") String slug);
 

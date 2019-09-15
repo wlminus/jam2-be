@@ -141,8 +141,8 @@ public class FrontResource {
         return ResponseEntity.ok().body(dataReturn);
     }
 
-    @GetMapping("/config/product")
-    public ResponseEntity<List<Product>> getcProductByConfig() {
+    @GetMapping("/config/product/hot")
+    public ResponseEntity<List<Product>> getHotProductByConfig() {
         log.debug("FRONT. REST request to get hot product by config list :");
         List<AppConst> appConstList = appConstRepository.findAll();
         List<Product> dataReturn = new ArrayList<>();
@@ -150,7 +150,7 @@ public class FrontResource {
             if (item.getConstKey() == ConfigKey.HOT_PRODUCT_LIST) {
                 String[] listMediaId = item.getConstValue().split(",");
                 for (String id : listMediaId) {
-                    Optional<Product> tmp = productRepository.findById(Long.parseLong(id));
+                    Optional<Product> tmp = productRepository.findOneWithMedia(Long.parseLong(id));
                     if (tmp.isPresent()) {
                         dataReturn.add(tmp.get());
                     }
