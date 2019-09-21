@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity Province.
@@ -19,14 +19,11 @@
             <column name="province_name" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="province_type" type="varchar(100)">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134603-1-relations" author="jhipster">
@@ -44,7 +41,7 @@
     -->
     <changeSet id="20190714134603-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/province.csv"
+                  file="config/liquibase/fake-data/province.csv"
                   separator=";"
                   tableName="province">
             <column name="id" type="numeric"/>

@@ -1,5 +1,4 @@
 package com.wlminus.repository;
-
 import com.wlminus.domain.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

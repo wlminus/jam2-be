@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity AppConst.
@@ -19,14 +19,11 @@
             <column name="const_key" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
             <column name="const_value" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134553-1-relations" author="jhipster">
@@ -44,7 +41,7 @@
     -->
     <changeSet id="20190714134553-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/app_const.csv"
+                  file="config/liquibase/fake-data/app_const.csv"
                   separator=";"
                   tableName="app_const">
             <column name="id" type="numeric"/>

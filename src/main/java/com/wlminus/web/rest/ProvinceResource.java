@@ -82,6 +82,7 @@ public class ProvinceResource {
     /**
      * {@code GET  /provinces} : get all the provinces.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of provinces in body.
      */
     @GetMapping("/provinces")

@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ProvinceResource} REST controller.
+ * Integration tests for the {@link ProvinceResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ProvinceResourceIT {

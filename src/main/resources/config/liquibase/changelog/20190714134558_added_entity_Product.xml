@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity Product.
@@ -19,70 +19,53 @@
             <column name="name" type="varchar(300)">
                 <constraints nullable="true" />
             </column>
-
             <column name="product_code" type="varchar(100)">
                 <constraints nullable="true" />
             </column>
-
             <column name="price" type="bigint">
                 <constraints nullable="false" />
             </column>
-
             <column name="final_price" type="bigint">
                 <constraints nullable="false" />
             </column>
-
             <column name="discount" type="double">
                 <constraints nullable="true" />
             </column>
-
             <column name="release_type" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="release_status" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="description" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
-
             <column name="material_desc" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
-
             <column name="slug" type="varchar(300)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_product_slug" />
             </column>
-
             <column name="is_valid" type="boolean">
                 <constraints nullable="true" />
             </column>
-
             <column name="created_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="created_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134558-1-relations" author="jhipster">
@@ -133,7 +116,7 @@
     -->
     <changeSet id="20190714134558-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/product.csv"
+                  file="config/liquibase/fake-data/product.csv"
                   separator=";"
                   tableName="product">
             <column name="id" type="numeric"/>

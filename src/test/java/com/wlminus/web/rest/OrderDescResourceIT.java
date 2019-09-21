@@ -28,19 +28,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link OrderDescResource} REST controller.
+ * Integration tests for the {@link OrderDescResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class OrderDescResourceIT {
 
     private static final Long DEFAULT_COUNT = 1L;
     private static final Long UPDATED_COUNT = 2L;
+    private static final Long SMALLER_COUNT = 1L - 1L;
 
     private static final Double DEFAULT_ORDER_PRICE = 0D;
     private static final Double UPDATED_ORDER_PRICE = 1D;
+    private static final Double SMALLER_ORDER_PRICE = 0D - 1D;
 
     private static final Double DEFAULT_FINAL_PRICE = 0D;
     private static final Double UPDATED_FINAL_PRICE = 1D;
+    private static final Double SMALLER_FINAL_PRICE = 0D - 1D;
 
     @Autowired
     private OrderDescRepository orderDescRepository;

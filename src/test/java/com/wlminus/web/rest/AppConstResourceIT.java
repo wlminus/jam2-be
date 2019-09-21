@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.wlminus.domain.enumeration.ConfigKey;
 /**
- * Integration tests for the {@Link AppConstResource} REST controller.
+ * Integration tests for the {@link AppConstResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class AppConstResourceIT {

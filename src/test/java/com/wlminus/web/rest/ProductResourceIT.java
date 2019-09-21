@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ProductResource} REST controller.
+ * Integration tests for the {@link ProductResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ProductResourceIT {
@@ -47,12 +47,15 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_PRICE = 1L;
     private static final Long UPDATED_PRICE = 2L;
+    private static final Long SMALLER_PRICE = 1L - 1L;
 
     private static final Long DEFAULT_FINAL_PRICE = 1L;
     private static final Long UPDATED_FINAL_PRICE = 2L;
+    private static final Long SMALLER_FINAL_PRICE = 1L - 1L;
 
     private static final Double DEFAULT_DISCOUNT = 0D;
     private static final Double UPDATED_DISCOUNT = 1D;
+    private static final Double SMALLER_DISCOUNT = 0D - 1D;
 
     private static final String DEFAULT_RELEASE_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_RELEASE_TYPE = "BBBBBBBBBB";
@@ -77,12 +80,14 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
+    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
+    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ProductRepository productRepository;

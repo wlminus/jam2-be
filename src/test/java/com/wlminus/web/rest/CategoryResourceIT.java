@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link CategoryResource} REST controller.
+ * Integration tests for the {@link CategoryResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class CategoryResourceIT {

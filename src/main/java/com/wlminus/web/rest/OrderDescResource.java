@@ -82,6 +82,7 @@ public class OrderDescResource {
     /**
      * {@code GET  /order-descs} : get all the orderDescs.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orderDescs in body.
      */
     @GetMapping("/order-descs")

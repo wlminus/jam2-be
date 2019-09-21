@@ -1,5 +1,4 @@
 package com.wlminus.repository;
-
 import com.wlminus.domain.Province;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

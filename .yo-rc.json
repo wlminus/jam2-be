@@ -4,7 +4,7 @@
       "packageName": "com.wlminus",
       "nativeLanguage": "vi"
     },
-    "jhipsterVersion": "6.1.2",
+    "jhipsterVersion": "6.3.1",
     "applicationType": "monolith",
     "baseName": "jamila",
     "packageName": "com.wlminus",
@@ -35,6 +35,8 @@
       "vi",
       "en"
     ],
-    "skipClient": true
+    "skipClient": true,
+    "embeddableLaunchScript": false,
+    "blueprints": []
   }
 }

@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ShopNewResource} REST controller.
+ * Integration tests for the {@link ShopNewResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ShopNewResourceIT {
@@ -52,12 +52,14 @@ public class ShopNewResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
+    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
+    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ShopNewRepository shopNewRepository;

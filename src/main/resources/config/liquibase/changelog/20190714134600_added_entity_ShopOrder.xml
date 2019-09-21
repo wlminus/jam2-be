@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity ShopOrder.
@@ -19,46 +19,35 @@
             <column name="order_status" type="varchar(100)">
                 <constraints nullable="true" />
             </column>
-
             <column name="total_price" type="double">
                 <constraints nullable="false" />
             </column>
-
             <column name="created_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="created_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="province_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="district_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="ward_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134600-1-relations" author="jhipster">
@@ -76,7 +65,7 @@
     -->
     <changeSet id="20190714134600-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/shop_order.csv"
+                  file="config/liquibase/fake-data/shop_order.csv"
                   separator=";"
                   tableName="shop_order">
             <column name="id" type="numeric"/>

@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity OrderDesc.
@@ -19,11 +19,9 @@
             <column name="count" type="bigint">
                 <constraints nullable="false" />
             </column>
-
             <column name="order_price" type="double">
                 <constraints nullable="false" />
             </column>
-
             <column name="final_price" type="double">
                 <constraints nullable="false" />
             </column>
@@ -33,10 +31,8 @@
             <column name="shop_order_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134601-1-relations" author="jhipster">
@@ -54,7 +50,7 @@
     -->
     <changeSet id="20190714134601-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/order_desc.csv"
+                  file="config/liquibase/fake-data/order_desc.csv"
                   separator=";"
                   tableName="order_desc">
             <column name="id" type="numeric"/>

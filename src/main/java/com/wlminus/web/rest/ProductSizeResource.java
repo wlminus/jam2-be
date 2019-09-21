@@ -82,6 +82,7 @@ public class ProductSizeResource {
     /**
      * {@code GET  /product-sizes} : get all the productSizes.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of productSizes in body.
      */
     @GetMapping("/product-sizes")
