@@ -1,0 +1,58 @@
+{
+    "name": "OrderDesc",
+    "fields": [
+        {
+            "fieldName": "count",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "min",
+                "required"
+            ],
+            "fieldValidateRulesMin": 1
+        },
+        {
+            "fieldName": "orderPrice",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "required"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "finalPrice",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "required"
+            ],
+            "fieldValidateRulesMin": 0
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "orderDesc",
+            "relationshipName": "product",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "shopOrder",
+            "otherEntityRelationshipName": "orderDesc",
+            "relationshipName": "shopOrder",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190714134601",
+    "entityTableName": "order_desc",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

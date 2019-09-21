@@ -1,0 +1,50 @@
+{
+    "name": "Province",
+    "fields": [
+        {
+            "fieldName": "provinceName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "provinceType",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 100
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "district",
+            "otherEntityRelationshipName": "province",
+            "relationshipName": "district"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "customer",
+            "otherEntityRelationshipName": "province",
+            "relationshipName": "customer"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "shopOrder",
+            "otherEntityRelationshipName": "province",
+            "relationshipName": "shopOrder"
+        }
+    ],
+    "changelogDate": "20190714134603",
+    "entityTableName": "province",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
