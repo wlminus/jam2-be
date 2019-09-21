@@ -102,6 +102,9 @@ spring:
     multipart:
       max-file-size: 3MB
       max-request-size: 10MB
+  output:
+    ansi:
+      console-available: true
 
 server:
   servlet:

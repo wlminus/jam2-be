@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.OrderDesc;
 import com.wlminus.repository.OrderDescRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,19 +27,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link OrderDescResource} REST controller.
+ * Integration tests for the {@link OrderDescResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class OrderDescResourceIT {
 
     private static final Long DEFAULT_COUNT = 1L;
     private static final Long UPDATED_COUNT = 2L;
+    private static final Long SMALLER_COUNT = 1L - 1L;
 
     private static final Double DEFAULT_ORDER_PRICE = 0D;
     private static final Double UPDATED_ORDER_PRICE = 1D;
+    private static final Double SMALLER_ORDER_PRICE = 0D - 1D;
 
     private static final Double DEFAULT_FINAL_PRICE = 0D;
     private static final Double UPDATED_FINAL_PRICE = 1D;
+    private static final Double SMALLER_FINAL_PRICE = 0D - 1D;
 
     @Autowired
     private OrderDescRepository orderDescRepository;
@@ -217,7 +219,7 @@ public class OrderDescResourceIT {
             .andExpect(jsonPath("$.[*].orderPrice").value(hasItem(DEFAULT_ORDER_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE.doubleValue())));
     }
-    
+
     @Test
     @Transactional
     public void getOrderDesc() throws Exception {

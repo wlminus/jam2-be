@@ -5,7 +5,6 @@ import com.wlminus.domain.Product;
 import com.wlminus.repository.ProductRepository;
 import com.wlminus.service.ProductService;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ProductResource} REST controller.
+ * Integration tests for the {@link ProductResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ProductResourceIT {
@@ -47,12 +45,15 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_PRICE = 1L;
     private static final Long UPDATED_PRICE = 2L;
+    private static final Long SMALLER_PRICE = 1L - 1L;
 
     private static final Long DEFAULT_FINAL_PRICE = 1L;
     private static final Long UPDATED_FINAL_PRICE = 2L;
+    private static final Long SMALLER_FINAL_PRICE = 1L - 1L;
 
     private static final Double DEFAULT_DISCOUNT = 0D;
     private static final Double UPDATED_DISCOUNT = 1D;
+    private static final Double SMALLER_DISCOUNT = 0D - 1D;
 
     private static final String DEFAULT_RELEASE_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_RELEASE_TYPE = "BBBBBBBBBB";
@@ -77,12 +78,14 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
+    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
+    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ProductRepository productRepository;
@@ -282,23 +285,23 @@ public class ProductResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].productCode").value(hasItem(DEFAULT_PRODUCT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].productCode").value(hasItem(DEFAULT_PRODUCT_CODE)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].discount").value(hasItem(DEFAULT_DISCOUNT.doubleValue())))
-            .andExpect(jsonPath("$.[*].releaseType").value(hasItem(DEFAULT_RELEASE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].releaseStatus").value(hasItem(DEFAULT_RELEASE_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].materialDesc").value(hasItem(DEFAULT_MATERIAL_DESC.toString())))
-            .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG.toString())))
+            .andExpect(jsonPath("$.[*].releaseType").value(hasItem(DEFAULT_RELEASE_TYPE)))
+            .andExpect(jsonPath("$.[*].releaseStatus").value(hasItem(DEFAULT_RELEASE_STATUS)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].materialDesc").value(hasItem(DEFAULT_MATERIAL_DESC)))
+            .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG)))
             .andExpect(jsonPath("$.[*].isValid").value(hasItem(DEFAULT_IS_VALID.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.intValue())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllProductsWithEagerRelationshipsIsEnabled() throws Exception {
         ProductResource productResource = new ProductResource(productServiceMock);
@@ -343,20 +346,20 @@ public class ProductResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(product.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.productCode").value(DEFAULT_PRODUCT_CODE.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.productCode").value(DEFAULT_PRODUCT_CODE))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
             .andExpect(jsonPath("$.finalPrice").value(DEFAULT_FINAL_PRICE.intValue()))
             .andExpect(jsonPath("$.discount").value(DEFAULT_DISCOUNT.doubleValue()))
-            .andExpect(jsonPath("$.releaseType").value(DEFAULT_RELEASE_TYPE.toString()))
-            .andExpect(jsonPath("$.releaseStatus").value(DEFAULT_RELEASE_STATUS.toString()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.materialDesc").value(DEFAULT_MATERIAL_DESC.toString()))
-            .andExpect(jsonPath("$.slug").value(DEFAULT_SLUG.toString()))
+            .andExpect(jsonPath("$.releaseType").value(DEFAULT_RELEASE_TYPE))
+            .andExpect(jsonPath("$.releaseStatus").value(DEFAULT_RELEASE_STATUS))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.materialDesc").value(DEFAULT_MATERIAL_DESC))
+            .andExpect(jsonPath("$.slug").value(DEFAULT_SLUG))
             .andExpect(jsonPath("$.isValid").value(DEFAULT_IS_VALID.booleanValue()))
-            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.intValue()));
     }
 

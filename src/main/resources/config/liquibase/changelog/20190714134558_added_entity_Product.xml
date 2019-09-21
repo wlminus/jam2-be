@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <property name="autoIncrement" value="true"/>
 
@@ -19,70 +17,53 @@
             <column name="name" type="varchar(300)">
                 <constraints nullable="true" />
             </column>
-
             <column name="product_code" type="varchar(100)">
                 <constraints nullable="true" />
             </column>
-
             <column name="price" type="bigint">
                 <constraints nullable="false" />
             </column>
-
             <column name="final_price" type="bigint">
                 <constraints nullable="false" />
             </column>
-
             <column name="discount" type="double">
                 <constraints nullable="true" />
             </column>
-
             <column name="release_type" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="release_status" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="description" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
-
             <column name="material_desc" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
-
             <column name="slug" type="varchar(300)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_product_slug" />
             </column>
-
             <column name="is_valid" type="boolean">
                 <constraints nullable="true" />
             </column>
-
             <column name="created_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="created_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_by" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="modified_date" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134558-1-relations" author="jhipster">
@@ -97,7 +78,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="product_id, media_id" tableName="product_media"/>
-        
+
         <createTable tableName="product_product_size">
             <column name="product_size_id" type="bigint">
                 <constraints nullable="false"/>
@@ -108,7 +89,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="product_id, product_size_id" tableName="product_product_size"/>
-        
+
         <createTable tableName="product_tag">
             <column name="tag_id" type="bigint">
                 <constraints nullable="false"/>
@@ -119,7 +100,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="product_id, tag_id" tableName="product_tag"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -133,9 +114,9 @@
     -->
     <changeSet id="20190714134558-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/product.csv"
-                  separator=";"
-                  tableName="product">
+            file="config/liquibase/fake-data/product.csv"
+            separator=";"
+            tableName="product">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="product_code" type="string"/>

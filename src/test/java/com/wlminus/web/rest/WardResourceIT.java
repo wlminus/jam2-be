@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.Ward;
 import com.wlminus.repository.WardRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link WardResource} REST controller.
+ * Integration tests for the {@link WardResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class WardResourceIT {
@@ -153,10 +152,10 @@ public class WardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(ward.getId().intValue())))
-            .andExpect(jsonPath("$.[*].wardName").value(hasItem(DEFAULT_WARD_NAME.toString())))
-            .andExpect(jsonPath("$.[*].wardType").value(hasItem(DEFAULT_WARD_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].wardName").value(hasItem(DEFAULT_WARD_NAME)))
+            .andExpect(jsonPath("$.[*].wardType").value(hasItem(DEFAULT_WARD_TYPE)));
     }
-    
+
     @Test
     @Transactional
     public void getWard() throws Exception {
@@ -168,8 +167,8 @@ public class WardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(ward.getId().intValue()))
-            .andExpect(jsonPath("$.wardName").value(DEFAULT_WARD_NAME.toString()))
-            .andExpect(jsonPath("$.wardType").value(DEFAULT_WARD_TYPE.toString()));
+            .andExpect(jsonPath("$.wardName").value(DEFAULT_WARD_NAME))
+            .andExpect(jsonPath("$.wardType").value(DEFAULT_WARD_TYPE));
     }
 
     @Test

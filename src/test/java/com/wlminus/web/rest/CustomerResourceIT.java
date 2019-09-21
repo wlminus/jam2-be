@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.Customer;
 import com.wlminus.repository.CustomerRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link CustomerResource} REST controller.
+ * Integration tests for the {@link CustomerResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class CustomerResourceIT {
@@ -159,11 +158,11 @@ public class CustomerResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(customer.getId().intValue())))
-            .andExpect(jsonPath("$.[*].customerName").value(hasItem(DEFAULT_CUSTOMER_NAME.toString())))
-            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())));
+            .andExpect(jsonPath("$.[*].customerName").value(hasItem(DEFAULT_CUSTOMER_NAME)))
+            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
     }
-    
+
     @Test
     @Transactional
     public void getCustomer() throws Exception {
@@ -175,9 +174,9 @@ public class CustomerResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(customer.getId().intValue()))
-            .andExpect(jsonPath("$.customerName").value(DEFAULT_CUSTOMER_NAME.toString()))
-            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL.toString()))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()));
+            .andExpect(jsonPath("$.customerName").value(DEFAULT_CUSTOMER_NAME))
+            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
     }
 
     @Test

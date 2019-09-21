@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <property name="autoIncrement" value="true"/>
 
@@ -19,30 +17,23 @@
             <column name="media_name" type="varchar(40)">
                 <constraints nullable="true" />
             </column>
-
             <column name="media_type" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
-
             <column name="media_url" type="varchar(200)">
                 <constraints nullable="true" />
             </column>
-
             <column name="media_alt" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
-
             <column name="upload_year" type="varchar(20)">
                 <constraints nullable="true" />
             </column>
-
             <column name="upload_month" type="varchar(20)">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
     </changeSet>
 
     <changeSet id="20190714134556-1-relations" author="jhipster">
@@ -60,9 +51,9 @@
     -->
     <changeSet id="20190714134556-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/data/media.csv"
-                  separator=";"
-                  tableName="media">
+            file="config/liquibase/fake-data/media.csv"
+            separator=";"
+            tableName="media">
             <column name="id" type="numeric"/>
             <column name="media_name" type="string"/>
             <column name="media_type" type="string"/>

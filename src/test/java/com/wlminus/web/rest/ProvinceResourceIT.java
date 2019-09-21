@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.Province;
 import com.wlminus.repository.ProvinceRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ProvinceResource} REST controller.
+ * Integration tests for the {@link ProvinceResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ProvinceResourceIT {
@@ -153,10 +152,10 @@ public class ProvinceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(province.getId().intValue())))
-            .andExpect(jsonPath("$.[*].provinceName").value(hasItem(DEFAULT_PROVINCE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].provinceType").value(hasItem(DEFAULT_PROVINCE_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].provinceName").value(hasItem(DEFAULT_PROVINCE_NAME)))
+            .andExpect(jsonPath("$.[*].provinceType").value(hasItem(DEFAULT_PROVINCE_TYPE)));
     }
-    
+
     @Test
     @Transactional
     public void getProvince() throws Exception {
@@ -168,8 +167,8 @@ public class ProvinceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(province.getId().intValue()))
-            .andExpect(jsonPath("$.provinceName").value(DEFAULT_PROVINCE_NAME.toString()))
-            .andExpect(jsonPath("$.provinceType").value(DEFAULT_PROVINCE_TYPE.toString()));
+            .andExpect(jsonPath("$.provinceName").value(DEFAULT_PROVINCE_NAME))
+            .andExpect(jsonPath("$.provinceType").value(DEFAULT_PROVINCE_TYPE));
     }
 
     @Test

@@ -3,7 +3,6 @@ package com.wlminus.security;
 import com.wlminus.JamilaApp;
 import com.wlminus.domain.User;
 import com.wlminus.repository.UserRepository;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
@@ -102,9 +100,10 @@ public class DomainUserDetailsServiceIT {
 
     @Test
     @Transactional
-    public void assertThatUserCanNotBeFoundByEmailIgnoreCase() {
-        assertThatExceptionOfType(UsernameNotFoundException.class).isThrownBy(
-            () -> domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH)));
+    public void assertThatUserCanBeFoundByEmailIgnoreCase() {
+        UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH));
+        assertThat(userDetails).isNotNull();
+        assertThat(userDetails.getUsername()).isEqualTo(USER_TWO_LOGIN);
     }
 
     @Test

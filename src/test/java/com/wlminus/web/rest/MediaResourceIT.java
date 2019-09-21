@@ -5,7 +5,6 @@ import com.wlminus.domain.Media;
 import com.wlminus.repository.MediaRepository;
 import com.wlminus.service.MediaUploadService;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -29,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link MediaResource} REST controller.
+ * Integration tests for the {@link MediaResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class MediaResourceIT {
@@ -179,14 +178,14 @@ public class MediaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(media.getId().intValue())))
-            .andExpect(jsonPath("$.[*].mediaName").value(hasItem(DEFAULT_MEDIA_NAME.toString())))
-            .andExpect(jsonPath("$.[*].mediaType").value(hasItem(DEFAULT_MEDIA_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].mediaURL").value(hasItem(DEFAULT_MEDIA_URL.toString())))
-            .andExpect(jsonPath("$.[*].mediaAlt").value(hasItem(DEFAULT_MEDIA_ALT.toString())))
-            .andExpect(jsonPath("$.[*].uploadYear").value(hasItem(DEFAULT_UPLOAD_YEAR.toString())))
-            .andExpect(jsonPath("$.[*].uploadMonth").value(hasItem(DEFAULT_UPLOAD_MONTH.toString())));
+            .andExpect(jsonPath("$.[*].mediaName").value(hasItem(DEFAULT_MEDIA_NAME)))
+            .andExpect(jsonPath("$.[*].mediaType").value(hasItem(DEFAULT_MEDIA_TYPE)))
+            .andExpect(jsonPath("$.[*].mediaURL").value(hasItem(DEFAULT_MEDIA_URL)))
+            .andExpect(jsonPath("$.[*].mediaAlt").value(hasItem(DEFAULT_MEDIA_ALT)))
+            .andExpect(jsonPath("$.[*].uploadYear").value(hasItem(DEFAULT_UPLOAD_YEAR)))
+            .andExpect(jsonPath("$.[*].uploadMonth").value(hasItem(DEFAULT_UPLOAD_MONTH)));
     }
-    
+
     @Test
     @Transactional
     public void getMedia() throws Exception {
@@ -198,12 +197,12 @@ public class MediaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(media.getId().intValue()))
-            .andExpect(jsonPath("$.mediaName").value(DEFAULT_MEDIA_NAME.toString()))
-            .andExpect(jsonPath("$.mediaType").value(DEFAULT_MEDIA_TYPE.toString()))
-            .andExpect(jsonPath("$.mediaURL").value(DEFAULT_MEDIA_URL.toString()))
-            .andExpect(jsonPath("$.mediaAlt").value(DEFAULT_MEDIA_ALT.toString()))
-            .andExpect(jsonPath("$.uploadYear").value(DEFAULT_UPLOAD_YEAR.toString()))
-            .andExpect(jsonPath("$.uploadMonth").value(DEFAULT_UPLOAD_MONTH.toString()));
+            .andExpect(jsonPath("$.mediaName").value(DEFAULT_MEDIA_NAME))
+            .andExpect(jsonPath("$.mediaType").value(DEFAULT_MEDIA_TYPE))
+            .andExpect(jsonPath("$.mediaURL").value(DEFAULT_MEDIA_URL))
+            .andExpect(jsonPath("$.mediaAlt").value(DEFAULT_MEDIA_ALT))
+            .andExpect(jsonPath("$.uploadYear").value(DEFAULT_UPLOAD_YEAR))
+            .andExpect(jsonPath("$.uploadMonth").value(DEFAULT_UPLOAD_MONTH));
     }
 
     @Test

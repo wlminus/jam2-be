@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.ProductSize;
 import com.wlminus.repository.ProductSizeRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ProductSizeResource} REST controller.
+ * Integration tests for the {@link ProductSizeResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ProductSizeResourceIT {
@@ -153,10 +152,10 @@ public class ProductSizeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(productSize.getId().intValue())))
-            .andExpect(jsonPath("$.[*].sizeName").value(hasItem(DEFAULT_SIZE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].sizeName").value(hasItem(DEFAULT_SIZE_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
-    
+
     @Test
     @Transactional
     public void getProductSize() throws Exception {
@@ -168,8 +167,8 @@ public class ProductSizeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(productSize.getId().intValue()))
-            .andExpect(jsonPath("$.sizeName").value(DEFAULT_SIZE_NAME.toString()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.sizeName").value(DEFAULT_SIZE_NAME))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test

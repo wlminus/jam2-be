@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 /**
- * Integration tests for the {@Link AppConstResource} REST controller.
+ * Integration tests for the {@link AppConstResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class AppConstResourceIT {
@@ -153,7 +153,7 @@ public class AppConstResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(appConst.getId().intValue())))
             .andExpect(jsonPath("$.[*].constKey").value(hasItem(DEFAULT_CONST_KEY.toString())))
-            .andExpect(jsonPath("$.[*].constValue").value(hasItem(DEFAULT_CONST_VALUE.toString())));
+            .andExpect(jsonPath("$.[*].constValue").value(hasItem(DEFAULT_CONST_VALUE)));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class AppConstResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(appConst.getId().intValue()))
             .andExpect(jsonPath("$.constKey").value(DEFAULT_CONST_KEY.toString()))
-            .andExpect(jsonPath("$.constValue").value(DEFAULT_CONST_VALUE.toString()));
+            .andExpect(jsonPath("$.constValue").value(DEFAULT_CONST_VALUE));
     }
 
     @Test

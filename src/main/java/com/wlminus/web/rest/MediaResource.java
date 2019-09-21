@@ -6,7 +6,6 @@ import com.wlminus.repository.MediaRepository;
 import com.wlminus.service.MediaUploadService;
 import com.wlminus.service.errors.FileStorageException;
 import com.wlminus.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,19 +16,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.MediaType;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -174,8 +171,7 @@ public class MediaResource {
      * {@code GET  /media} : get all the media.
      *
      * @param pageable the pagination information.
-     * @param queryParams a {@link MultiValueMap} query parameters.
-     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of media in body.
      */
     @GetMapping("/media")

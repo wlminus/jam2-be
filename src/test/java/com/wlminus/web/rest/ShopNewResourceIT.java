@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.ShopNew;
 import com.wlminus.repository.ShopNewRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -33,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link ShopNewResource} REST controller.
+ * Integration tests for the {@link ShopNewResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class ShopNewResourceIT {
@@ -52,12 +50,14 @@ public class ShopNewResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
+    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
+    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ShopNewRepository shopNewRepository;
@@ -191,15 +191,15 @@ public class ShopNewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(shopNew.getId().intValue())))
-            .andExpect(jsonPath("$.[*].newTitle").value(hasItem(DEFAULT_NEW_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].newContent").value(hasItem(DEFAULT_NEW_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].newType").value(hasItem(DEFAULT_NEW_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].newTitle").value(hasItem(DEFAULT_NEW_TITLE)))
+            .andExpect(jsonPath("$.[*].newContent").value(hasItem(DEFAULT_NEW_CONTENT)))
+            .andExpect(jsonPath("$.[*].newType").value(hasItem(DEFAULT_NEW_TYPE)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.intValue())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllShopNewsWithEagerRelationshipsIsEnabled() throws Exception {
         ShopNewResource shopNewResource = new ShopNewResource(shopNewRepositoryMock);
@@ -244,12 +244,12 @@ public class ShopNewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(shopNew.getId().intValue()))
-            .andExpect(jsonPath("$.newTitle").value(DEFAULT_NEW_TITLE.toString()))
-            .andExpect(jsonPath("$.newContent").value(DEFAULT_NEW_CONTENT.toString()))
-            .andExpect(jsonPath("$.newType").value(DEFAULT_NEW_TYPE.toString()))
-            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.newTitle").value(DEFAULT_NEW_TITLE))
+            .andExpect(jsonPath("$.newContent").value(DEFAULT_NEW_CONTENT))
+            .andExpect(jsonPath("$.newType").value(DEFAULT_NEW_TYPE))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.intValue()));
     }
 

@@ -4,7 +4,6 @@ import com.wlminus.JamilaApp;
 import com.wlminus.domain.District;
 import com.wlminus.repository.DistrictRepository;
 import com.wlminus.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link DistrictResource} REST controller.
+ * Integration tests for the {@link DistrictResource} REST controller.
  */
 @SpringBootTest(classes = JamilaApp.class)
 public class DistrictResourceIT {
@@ -153,10 +152,10 @@ public class DistrictResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(district.getId().intValue())))
-            .andExpect(jsonPath("$.[*].districtName").value(hasItem(DEFAULT_DISTRICT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].districtType").value(hasItem(DEFAULT_DISTRICT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].districtName").value(hasItem(DEFAULT_DISTRICT_NAME)))
+            .andExpect(jsonPath("$.[*].districtType").value(hasItem(DEFAULT_DISTRICT_TYPE)));
     }
-    
+
     @Test
     @Transactional
     public void getDistrict() throws Exception {
@@ -168,8 +167,8 @@ public class DistrictResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(district.getId().intValue()))
-            .andExpect(jsonPath("$.districtName").value(DEFAULT_DISTRICT_NAME.toString()))
-            .andExpect(jsonPath("$.districtType").value(DEFAULT_DISTRICT_TYPE.toString()));
+            .andExpect(jsonPath("$.districtName").value(DEFAULT_DISTRICT_NAME))
+            .andExpect(jsonPath("$.districtType").value(DEFAULT_DISTRICT_TYPE));
     }
 
     @Test
