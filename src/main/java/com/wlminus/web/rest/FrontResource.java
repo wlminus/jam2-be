@@ -1,12 +1,8 @@
 package com.wlminus.web.rest;
 
-import com.wlminus.config.Constants;
 import com.wlminus.domain.*;
 import com.wlminus.domain.enumeration.ConfigKey;
-import com.wlminus.repository.AppConstRepository;
-import com.wlminus.repository.CategoryRepository;
-import com.wlminus.repository.MediaRepository;
-import com.wlminus.repository.ProductRepository;
+import com.wlminus.repository.*;
 import com.wlminus.service.ProductService;
 import com.wlminus.service.dto.CartDTO;
 import com.wlminus.web.rest.errors.BadRequestAlertException;
@@ -44,18 +40,25 @@ public class FrontResource {
     private final AppConstRepository appConstRepository;
     private final MediaRepository mediaRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository) {
+    private final ProvinceRepository provinceRepository;
+    private final DistrictRepository districtRepository;
+    private final WardRepository wardRepository;
+
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
         this.appConstRepository = appConstRepository;
         this.mediaRepository = mediaRepository;
+        this.provinceRepository = provinceRepository;
+        this.districtRepository = districtRepository;
+        this.wardRepository = wardRepository;
     }
 
     @GetMapping("/categories")
-    public List<Category> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories() {
         log.debug("FRONT. REST request to get all Categories");
-        return categoryRepository.findAll();
+        return ResponseEntity.ok().body(categoryRepository.findAll());
     }
 
     @GetMapping("/products/cat/{slug}")
@@ -108,55 +111,80 @@ public class FrontResource {
         return;
     }
 
-//    @GetMapping("/home/key/{configKey}")
-//    public ResponseEntity<AppConst> getOneAppConstByKey(@PathVariable String configKey) {
-//        log.debug("FRONT. REST request to get config by key : {}", configKey);
-//        Optional<AppConst> appConst = appConstRepository.findOneByKey(configKey);
-//        return ResponseUtil.wrapOrNotFound(appConst);
-//    }
-
-    @GetMapping("/config")
-    public ResponseEntity<List<AppConst>> getManyAppConstByKey() {
-        log.debug("FRONT. REST request to get config list :");
-        List<AppConst> appConst = appConstRepository.findAll();
-        return ResponseEntity.ok().body(appConst);
-    }
-
     @GetMapping("/config/media")
     public ResponseEntity<List<Media>> getMediaByConfig() {
         log.debug("FRONT. REST request to get media by config list :");
-        List<AppConst> appConstList = appConstRepository.findAll();
-        List<Media> dataReturn = new ArrayList<>();
-        for (AppConst item: appConstList) {
-            if (item.getConstKey() == ConfigKey.HOME_SLIDE_LIST) {
-                String[] listMediaId = item.getConstValue().split(",");
-                for (String id : listMediaId) {
-                    Optional<Media> tmp = mediaRepository.findById(Long.parseLong(id));
-                    if (tmp.isPresent()) {
-                        dataReturn.add(tmp.get());
+        try {
+            List<AppConst> appConstList = appConstRepository.findAll();
+            List<Media> dataReturn = new ArrayList<>();
+            Integer count = 0;
+            for (AppConst item : appConstList) {
+                if (item.getConstKey() == ConfigKey.HOME_SLIDE_LIST) {
+                    String[] listMediaId = item.getConstValue().split(",");
+                    count = listMediaId.length;
+                    for (String id : listMediaId) {
+                        Optional<Media> tmp = mediaRepository.findById(Long.parseLong(id));
+                        if (tmp.isPresent()) {
+                            dataReturn.add(tmp.get());
+                        }
                     }
                 }
             }
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Total-Count", count.toString());
+            return ResponseEntity.ok().headers(headers).body(dataReturn);
+        } catch (Exception ex) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Total-Count", "0");
+            return ResponseEntity.ok().headers(headers).body(null);
         }
-        return ResponseEntity.ok().body(dataReturn);
     }
 
     @GetMapping("/config/product/hot")
     public ResponseEntity<List<Product>> getHotProductByConfig() {
         log.debug("FRONT. REST request to get hot product by config list :");
-        List<AppConst> appConstList = appConstRepository.findAll();
-        List<Product> dataReturn = new ArrayList<>();
-        for (AppConst item: appConstList) {
-            if (item.getConstKey() == ConfigKey.HOT_PRODUCT_LIST) {
-                String[] listMediaId = item.getConstValue().split(",");
-                for (String id : listMediaId) {
-                    Optional<Product> tmp = productRepository.findOneWithMedia(Long.parseLong(id));
-                    if (tmp.isPresent()) {
-                        dataReturn.add(tmp.get());
+        try {
+            List<AppConst> appConstList = appConstRepository.findAll();
+            List<Product> dataReturn = new ArrayList<>();
+            Integer count = 0;
+            for (AppConst item : appConstList) {
+                if (item.getConstKey() == ConfigKey.HOT_PRODUCT_LIST && item.getConstKey() != null && !item.getConstKey().toString().isEmpty()) {
+                    String[] listMediaId = item.getConstValue().split(",");
+                    count = listMediaId.length;
+                    for (String id : listMediaId) {
+                        Optional<Product> tmp = productRepository.findOneWithMedia(Long.parseLong(id));
+                        if (tmp.isPresent()) {
+
+                            dataReturn.add(tmp.get());
+                        }
                     }
                 }
             }
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Total-Count", count.toString());
+            return ResponseEntity.ok().headers(headers).body(dataReturn);
+        } catch (Exception ex) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Total-Count", "0");
+            return ResponseEntity.ok().headers(headers).body(null);
         }
-        return ResponseEntity.ok().body(dataReturn);
+    }
+
+    @GetMapping("/province")
+    public ResponseEntity<List<Province>> getProvince() {
+        log.debug("FRONT. REST request get list province");
+        return ResponseEntity.ok().body(provinceRepository.findAll());
+    }
+
+    @GetMapping("/district/p/{provinceId}")
+    public ResponseEntity<List<District>> getProvince(@PathVariable Long provinceId) {
+        log.debug("FRONT. REST request get list district by provinceId");
+        return ResponseEntity.ok().body(districtRepository.findAllByProvince_Id(provinceId));
+    }
+
+    @GetMapping("/ward/d/{districtId}")
+    public ResponseEntity<List<Ward>> getWard(@PathVariable Long districtId) {
+        log.debug("FRONT. REST request get list district by provinceId");
+        return ResponseEntity.ok().body(wardRepository.findAllByDistrictId(districtId));
     }
 }
