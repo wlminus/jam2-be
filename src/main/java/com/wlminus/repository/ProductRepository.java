@@ -44,4 +44,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%",
         countQuery = "select count(distinct product) from Product product where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%")
     Page<Product> searchProduct(@Param("query") String query, Pageable pageable);
+
+    List<Product> findAllByIsValidIsTrue();
 }

@@ -140,34 +140,10 @@ public class FrontResource {
         }
     }
 
-    @GetMapping("/config/product/hot")
-    public ResponseEntity<List<Product>> getHotProductByConfig() {
-        log.debug("FRONT. REST request to get hot product by config list :");
-        try {
-            List<AppConst> appConstList = appConstRepository.findAll();
-            List<Product> dataReturn = new ArrayList<>();
-            Integer count = 0;
-            for (AppConst item : appConstList) {
-                if (item.getConstKey() == ConfigKey.HOT_PRODUCT_LIST && item.getConstKey() != null && !item.getConstKey().toString().isEmpty()) {
-                    String[] listMediaId = item.getConstValue().split(",");
-                    count = listMediaId.length;
-                    for (String id : listMediaId) {
-                        Optional<Product> tmp = productRepository.findOneWithMedia(Long.parseLong(id));
-                        if (tmp.isPresent()) {
-
-                            dataReturn.add(tmp.get());
-                        }
-                    }
-                }
-            }
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("X-Total-Count", count.toString());
-            return ResponseEntity.ok().headers(headers).body(dataReturn);
-        } catch (Exception ex) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("X-Total-Count", "0");
-            return ResponseEntity.ok().headers(headers).body(null);
-        }
+    @GetMapping("/config/product/new")
+    public ResponseEntity<List<Product>> getNewProduct() {
+        log.debug("FRONT. REST request to get new product by config list :");
+        return ResponseEntity.ok().body(productRepository.findAllByIsValidIsTrue());
     }
 
     @GetMapping("/province")
