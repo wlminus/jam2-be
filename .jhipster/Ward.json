@@ -1,0 +1,51 @@
+{
+    "name": "Ward",
+    "fields": [
+        {
+            "fieldName": "wardName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "wardType",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 100
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "district",
+            "otherEntityRelationshipName": "ward",
+            "relationshipName": "district",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "customer",
+            "otherEntityRelationshipName": "ward",
+            "relationshipName": "customer"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "shopOrder",
+            "otherEntityRelationshipName": "ward",
+            "relationshipName": "shopOrder"
+        }
+    ],
+    "changelogDate": "20190714134605",
+    "entityTableName": "ward",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

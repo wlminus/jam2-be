@@ -1,0 +1,91 @@
+{
+    "name": "ShopOrder",
+    "fields": [
+        {
+            "fieldName": "orderStatus",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "totalPrice",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min",
+                "required"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "modifiedDate",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "orderDesc",
+            "otherEntityRelationshipName": "shopOrder",
+            "relationshipName": "orderDesc"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "province",
+            "otherEntityRelationshipName": "shopOrder",
+            "relationshipName": "province",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "district",
+            "otherEntityRelationshipName": "shopOrder",
+            "relationshipName": "district",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "ward",
+            "otherEntityRelationshipName": "shopOrder",
+            "relationshipName": "ward",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "customer",
+            "otherEntityRelationshipName": "shopOrder",
+            "relationshipName": "customer",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190714134600",
+    "entityTableName": "shop_order",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,75 @@
+{
+    "name": "Customer",
+    "fields": [
+        {
+            "fieldName": "customerName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 300
+        },
+        {
+            "fieldName": "tel",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 300
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "shopOrder",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "shopOrder"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "province",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "province",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "district",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "district",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "ward",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "ward",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190714134555",
+    "entityTableName": "customer",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

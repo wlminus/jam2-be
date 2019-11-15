@@ -1,0 +1,28 @@
+{
+    "name": "AppConst",
+    "fields": [
+        {
+            "fieldName": "constKey",
+            "fieldType": "ConfigKey",
+            "fieldValues": "HOME_PRODUCT_LIST,REALESE_STATUS"
+        },
+        {
+            "fieldName": "constValue",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 1000
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190714134553",
+    "entityTableName": "app_const",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
