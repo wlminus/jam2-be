@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class MediaResource {
 
     private final Logger log = LoggerFactory.getLogger(MediaResource.class);
@@ -52,25 +54,6 @@ public class MediaResource {
         this.mediaRepository = mediaRepository;
         this.mediaUploadService = mediaUploadService;
     }
-
-//    /**
-//     * {@code POST  /media} : Create a new media.
-//     *
-//     * @param media the media to create.
-//     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new media, or with status {@code 400 (Bad Request)} if the media has already an ID.
-//     * @throws URISyntaxException if the Location URI syntax is incorrect.
-//     */
-//    @PostMapping("/media")
-//    public ResponseEntity<Media> createMedia(@Valid @RequestBody Media media) throws URISyntaxException {
-//        log.debug("REST request to save Media : {}", media);
-//        if (media.getId() != null) {
-//            throw new BadRequestAlertException("A new media cannot already have an ID", ENTITY_NAME, "idexists");
-//        }
-//        Media result = mediaRepository.save(media);
-//        return ResponseEntity.created(new URI("/api/media/" + result.getId()))
-//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-//            .body(result);
-//    }
 
     /**
      * Upload a file and register into database Media
@@ -194,19 +177,6 @@ public class MediaResource {
         Optional<Media> media = mediaRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(media);
     }
-
-//    /**
-//     * {@code DELETE  /media/:id} : delete the "id" media.
-//     *
-//     * @param id the id of the media to delete.
-//     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-//     */
-//    @DeleteMapping("/media/{id}")
-//    public ResponseEntity<Void> deleteMedia(@PathVariable Long id) {
-//        log.debug("REST request to delete Media : {}", id);
-//        mediaRepository.deleteById(id);
-//        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
-//    }
 
     /**
      * DELETE  /media/:id : delete the "id" media.

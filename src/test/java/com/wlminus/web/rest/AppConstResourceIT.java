@@ -243,19 +243,4 @@ public class AppConstResourceIT {
         List<AppConst> appConstList = appConstRepository.findAll();
         assertThat(appConstList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(AppConst.class);
-        AppConst appConst1 = new AppConst();
-        appConst1.setId(1L);
-        AppConst appConst2 = new AppConst();
-        appConst2.setId(appConst1.getId());
-        assertThat(appConst1).isEqualTo(appConst2);
-        appConst2.setId(2L);
-        assertThat(appConst1).isNotEqualTo(appConst2);
-        appConst1.setId(null);
-        assertThat(appConst1).isNotEqualTo(appConst2);
-    }
 }

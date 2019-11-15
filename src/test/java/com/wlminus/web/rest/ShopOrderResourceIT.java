@@ -37,21 +37,18 @@ public class ShopOrderResourceIT {
 
     private static final Double DEFAULT_TOTAL_PRICE = 0D;
     private static final Double UPDATED_TOTAL_PRICE = 1D;
-    private static final Double SMALLER_TOTAL_PRICE = 0D - 1D;
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
-    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
-    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ShopOrderRepository shopOrderRepository;
@@ -303,20 +300,5 @@ public class ShopOrderResourceIT {
         // Validate the database contains one less item
         List<ShopOrder> shopOrderList = shopOrderRepository.findAll();
         assertThat(shopOrderList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ShopOrder.class);
-        ShopOrder shopOrder1 = new ShopOrder();
-        shopOrder1.setId(1L);
-        ShopOrder shopOrder2 = new ShopOrder();
-        shopOrder2.setId(shopOrder1.getId());
-        assertThat(shopOrder1).isEqualTo(shopOrder2);
-        shopOrder2.setId(2L);
-        assertThat(shopOrder1).isNotEqualTo(shopOrder2);
-        shopOrder1.setId(null);
-        assertThat(shopOrder1).isNotEqualTo(shopOrder2);
     }
 }

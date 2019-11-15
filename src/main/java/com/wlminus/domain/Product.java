@@ -87,7 +87,7 @@ public class Product implements Serializable {
     @Column(name = "modified_date")
     private Long modifiedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("products")
     private Category category;
 

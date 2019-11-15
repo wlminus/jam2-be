@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional; 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +28,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class ShopOrderResource {
 
     private final Logger log = LoggerFactory.getLogger(ShopOrderResource.class);

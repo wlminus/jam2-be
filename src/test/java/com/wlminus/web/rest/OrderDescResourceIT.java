@@ -34,15 +34,12 @@ public class OrderDescResourceIT {
 
     private static final Long DEFAULT_COUNT = 1L;
     private static final Long UPDATED_COUNT = 2L;
-    private static final Long SMALLER_COUNT = 1L - 1L;
 
     private static final Double DEFAULT_ORDER_PRICE = 0D;
     private static final Double UPDATED_ORDER_PRICE = 1D;
-    private static final Double SMALLER_ORDER_PRICE = 0D - 1D;
 
     private static final Double DEFAULT_FINAL_PRICE = 0D;
     private static final Double UPDATED_FINAL_PRICE = 1D;
-    private static final Double SMALLER_FINAL_PRICE = 0D - 1D;
 
     @Autowired
     private OrderDescRepository orderDescRepository;
@@ -309,20 +306,5 @@ public class OrderDescResourceIT {
         // Validate the database contains one less item
         List<OrderDesc> orderDescList = orderDescRepository.findAll();
         assertThat(orderDescList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(OrderDesc.class);
-        OrderDesc orderDesc1 = new OrderDesc();
-        orderDesc1.setId(1L);
-        OrderDesc orderDesc2 = new OrderDesc();
-        orderDesc2.setId(orderDesc1.getId());
-        assertThat(orderDesc1).isEqualTo(orderDesc2);
-        orderDesc2.setId(2L);
-        assertThat(orderDesc1).isNotEqualTo(orderDesc2);
-        orderDesc1.setId(null);
-        assertThat(orderDesc1).isNotEqualTo(orderDesc2);
     }
 }

@@ -37,11 +37,12 @@ public class OrderDesc implements Serializable {
     @Column(name = "final_price", nullable = false)
     private Double finalPrice;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+
     @JoinColumn(unique = true)
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("orderDescs")
     private ShopOrder shopOrder;
 

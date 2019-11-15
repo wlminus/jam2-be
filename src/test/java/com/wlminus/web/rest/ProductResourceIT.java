@@ -45,15 +45,12 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_PRICE = 1L;
     private static final Long UPDATED_PRICE = 2L;
-    private static final Long SMALLER_PRICE = 1L - 1L;
 
     private static final Long DEFAULT_FINAL_PRICE = 1L;
     private static final Long UPDATED_FINAL_PRICE = 2L;
-    private static final Long SMALLER_FINAL_PRICE = 1L - 1L;
 
     private static final Double DEFAULT_DISCOUNT = 0D;
     private static final Double UPDATED_DISCOUNT = 1D;
-    private static final Double SMALLER_DISCOUNT = 0D - 1D;
 
     private static final String DEFAULT_RELEASE_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_RELEASE_TYPE = "BBBBBBBBBB";
@@ -78,14 +75,12 @@ public class ProductResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
-    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
-    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ProductRepository productRepository;
@@ -460,20 +455,5 @@ public class ProductResourceIT {
         // Validate the database contains one less item
         List<Product> productList = productRepository.findAll();
         assertThat(productList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Product.class);
-        Product product1 = new Product();
-        product1.setId(1L);
-        Product product2 = new Product();
-        product2.setId(product1.getId());
-        assertThat(product1).isEqualTo(product2);
-        product2.setId(2L);
-        assertThat(product1).isNotEqualTo(product2);
-        product1.setId(null);
-        assertThat(product1).isNotEqualTo(product2);
     }
 }

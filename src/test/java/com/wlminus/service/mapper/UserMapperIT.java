@@ -1,6 +1,5 @@
 package com.wlminus.service.mapper;
 
-
 import com.wlminus.JamilaApp;
 import com.wlminus.domain.User;
 import com.wlminus.service.dto.UserDTO;
