@@ -52,14 +52,12 @@ public class ShopNewResourceIT {
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
-    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
-    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ShopNewRepository shopNewRepository;
@@ -193,12 +191,12 @@ public class ShopNewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(shopNew.getId().intValue())))
-            .andExpect(jsonPath("$.[*].newTitle").value(hasItem(DEFAULT_NEW_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].newContent").value(hasItem(DEFAULT_NEW_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].newType").value(hasItem(DEFAULT_NEW_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].newTitle").value(hasItem(DEFAULT_NEW_TITLE)))
+            .andExpect(jsonPath("$.[*].newContent").value(hasItem(DEFAULT_NEW_CONTENT)))
+            .andExpect(jsonPath("$.[*].newType").value(hasItem(DEFAULT_NEW_TYPE)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.intValue())));
     }
     
@@ -246,12 +244,12 @@ public class ShopNewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(shopNew.getId().intValue()))
-            .andExpect(jsonPath("$.newTitle").value(DEFAULT_NEW_TITLE.toString()))
-            .andExpect(jsonPath("$.newContent").value(DEFAULT_NEW_CONTENT.toString()))
-            .andExpect(jsonPath("$.newType").value(DEFAULT_NEW_TYPE.toString()))
-            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.newTitle").value(DEFAULT_NEW_TITLE))
+            .andExpect(jsonPath("$.newContent").value(DEFAULT_NEW_CONTENT))
+            .andExpect(jsonPath("$.newType").value(DEFAULT_NEW_TYPE))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.intValue()));
     }
 
@@ -336,20 +334,5 @@ public class ShopNewResourceIT {
         // Validate the database contains one less item
         List<ShopNew> shopNewList = shopNewRepository.findAll();
         assertThat(shopNewList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ShopNew.class);
-        ShopNew shopNew1 = new ShopNew();
-        shopNew1.setId(1L);
-        ShopNew shopNew2 = new ShopNew();
-        shopNew2.setId(shopNew1.getId());
-        assertThat(shopNew1).isEqualTo(shopNew2);
-        shopNew2.setId(2L);
-        assertThat(shopNew1).isNotEqualTo(shopNew2);
-        shopNew1.setId(null);
-        assertThat(shopNew1).isNotEqualTo(shopNew2);
     }
 }

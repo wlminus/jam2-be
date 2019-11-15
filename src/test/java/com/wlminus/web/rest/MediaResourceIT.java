@@ -177,12 +177,12 @@ public class MediaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(media.getId().intValue())))
-            .andExpect(jsonPath("$.[*].mediaName").value(hasItem(DEFAULT_MEDIA_NAME.toString())))
-            .andExpect(jsonPath("$.[*].mediaType").value(hasItem(DEFAULT_MEDIA_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].mediaURL").value(hasItem(DEFAULT_MEDIA_URL.toString())))
-            .andExpect(jsonPath("$.[*].mediaAlt").value(hasItem(DEFAULT_MEDIA_ALT.toString())))
-            .andExpect(jsonPath("$.[*].uploadYear").value(hasItem(DEFAULT_UPLOAD_YEAR.toString())))
-            .andExpect(jsonPath("$.[*].uploadMonth").value(hasItem(DEFAULT_UPLOAD_MONTH.toString())));
+            .andExpect(jsonPath("$.[*].mediaName").value(hasItem(DEFAULT_MEDIA_NAME)))
+            .andExpect(jsonPath("$.[*].mediaType").value(hasItem(DEFAULT_MEDIA_TYPE)))
+            .andExpect(jsonPath("$.[*].mediaURL").value(hasItem(DEFAULT_MEDIA_URL)))
+            .andExpect(jsonPath("$.[*].mediaAlt").value(hasItem(DEFAULT_MEDIA_ALT)))
+            .andExpect(jsonPath("$.[*].uploadYear").value(hasItem(DEFAULT_UPLOAD_YEAR)))
+            .andExpect(jsonPath("$.[*].uploadMonth").value(hasItem(DEFAULT_UPLOAD_MONTH)));
     }
     
     @Test
@@ -196,12 +196,12 @@ public class MediaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(media.getId().intValue()))
-            .andExpect(jsonPath("$.mediaName").value(DEFAULT_MEDIA_NAME.toString()))
-            .andExpect(jsonPath("$.mediaType").value(DEFAULT_MEDIA_TYPE.toString()))
-            .andExpect(jsonPath("$.mediaURL").value(DEFAULT_MEDIA_URL.toString()))
-            .andExpect(jsonPath("$.mediaAlt").value(DEFAULT_MEDIA_ALT.toString()))
-            .andExpect(jsonPath("$.uploadYear").value(DEFAULT_UPLOAD_YEAR.toString()))
-            .andExpect(jsonPath("$.uploadMonth").value(DEFAULT_UPLOAD_MONTH.toString()));
+            .andExpect(jsonPath("$.mediaName").value(DEFAULT_MEDIA_NAME))
+            .andExpect(jsonPath("$.mediaType").value(DEFAULT_MEDIA_TYPE))
+            .andExpect(jsonPath("$.mediaURL").value(DEFAULT_MEDIA_URL))
+            .andExpect(jsonPath("$.mediaAlt").value(DEFAULT_MEDIA_ALT))
+            .andExpect(jsonPath("$.uploadYear").value(DEFAULT_UPLOAD_YEAR))
+            .andExpect(jsonPath("$.uploadMonth").value(DEFAULT_UPLOAD_MONTH));
     }
 
     @Test
@@ -283,20 +283,5 @@ public class MediaResourceIT {
         // Validate the database contains one less item
         List<Media> mediaList = mediaRepository.findAll();
         assertThat(mediaList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Media.class);
-        Media media1 = new Media();
-        media1.setId(1L);
-        Media media2 = new Media();
-        media2.setId(media1.getId());
-        assertThat(media1).isEqualTo(media2);
-        media2.setId(2L);
-        assertThat(media1).isNotEqualTo(media2);
-        media1.setId(null);
-        assertThat(media1).isNotEqualTo(media2);
     }
 }

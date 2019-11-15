@@ -32,7 +32,7 @@ public class Ward implements Serializable {
     @Column(name = "ward_type", length = 100)
     private String wardType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("wards")
     private District district;
 

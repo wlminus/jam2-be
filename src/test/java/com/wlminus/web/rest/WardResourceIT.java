@@ -153,8 +153,8 @@ public class WardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(ward.getId().intValue())))
-            .andExpect(jsonPath("$.[*].wardName").value(hasItem(DEFAULT_WARD_NAME.toString())))
-            .andExpect(jsonPath("$.[*].wardType").value(hasItem(DEFAULT_WARD_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].wardName").value(hasItem(DEFAULT_WARD_NAME)))
+            .andExpect(jsonPath("$.[*].wardType").value(hasItem(DEFAULT_WARD_TYPE)));
     }
     
     @Test
@@ -168,8 +168,8 @@ public class WardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(ward.getId().intValue()))
-            .andExpect(jsonPath("$.wardName").value(DEFAULT_WARD_NAME.toString()))
-            .andExpect(jsonPath("$.wardType").value(DEFAULT_WARD_TYPE.toString()));
+            .andExpect(jsonPath("$.wardName").value(DEFAULT_WARD_NAME))
+            .andExpect(jsonPath("$.wardType").value(DEFAULT_WARD_TYPE));
     }
 
     @Test
@@ -243,20 +243,5 @@ public class WardResourceIT {
         // Validate the database contains one less item
         List<Ward> wardList = wardRepository.findAll();
         assertThat(wardList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Ward.class);
-        Ward ward1 = new Ward();
-        ward1.setId(1L);
-        Ward ward2 = new Ward();
-        ward2.setId(ward1.getId());
-        assertThat(ward1).isEqualTo(ward2);
-        ward2.setId(2L);
-        assertThat(ward1).isNotEqualTo(ward2);
-        ward1.setId(null);
-        assertThat(ward1).isNotEqualTo(ward2);
     }
 }

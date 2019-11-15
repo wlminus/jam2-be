@@ -153,8 +153,8 @@ public class DistrictResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(district.getId().intValue())))
-            .andExpect(jsonPath("$.[*].districtName").value(hasItem(DEFAULT_DISTRICT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].districtType").value(hasItem(DEFAULT_DISTRICT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].districtName").value(hasItem(DEFAULT_DISTRICT_NAME)))
+            .andExpect(jsonPath("$.[*].districtType").value(hasItem(DEFAULT_DISTRICT_TYPE)));
     }
     
     @Test
@@ -168,8 +168,8 @@ public class DistrictResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(district.getId().intValue()))
-            .andExpect(jsonPath("$.districtName").value(DEFAULT_DISTRICT_NAME.toString()))
-            .andExpect(jsonPath("$.districtType").value(DEFAULT_DISTRICT_TYPE.toString()));
+            .andExpect(jsonPath("$.districtName").value(DEFAULT_DISTRICT_NAME))
+            .andExpect(jsonPath("$.districtType").value(DEFAULT_DISTRICT_TYPE));
     }
 
     @Test
@@ -243,20 +243,5 @@ public class DistrictResourceIT {
         // Validate the database contains one less item
         List<District> districtList = districtRepository.findAll();
         assertThat(districtList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(District.class);
-        District district1 = new District();
-        district1.setId(1L);
-        District district2 = new District();
-        district2.setId(district1.getId());
-        assertThat(district1).isEqualTo(district2);
-        district2.setId(2L);
-        assertThat(district1).isNotEqualTo(district2);
-        district1.setId(null);
-        assertThat(district1).isNotEqualTo(district2);
     }
 }

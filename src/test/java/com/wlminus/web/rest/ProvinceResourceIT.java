@@ -153,8 +153,8 @@ public class ProvinceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(province.getId().intValue())))
-            .andExpect(jsonPath("$.[*].provinceName").value(hasItem(DEFAULT_PROVINCE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].provinceType").value(hasItem(DEFAULT_PROVINCE_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].provinceName").value(hasItem(DEFAULT_PROVINCE_NAME)))
+            .andExpect(jsonPath("$.[*].provinceType").value(hasItem(DEFAULT_PROVINCE_TYPE)));
     }
     
     @Test
@@ -168,8 +168,8 @@ public class ProvinceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(province.getId().intValue()))
-            .andExpect(jsonPath("$.provinceName").value(DEFAULT_PROVINCE_NAME.toString()))
-            .andExpect(jsonPath("$.provinceType").value(DEFAULT_PROVINCE_TYPE.toString()));
+            .andExpect(jsonPath("$.provinceName").value(DEFAULT_PROVINCE_NAME))
+            .andExpect(jsonPath("$.provinceType").value(DEFAULT_PROVINCE_TYPE));
     }
 
     @Test
@@ -243,20 +243,5 @@ public class ProvinceResourceIT {
         // Validate the database contains one less item
         List<Province> provinceList = provinceRepository.findAll();
         assertThat(provinceList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Province.class);
-        Province province1 = new Province();
-        province1.setId(1L);
-        Province province2 = new Province();
-        province2.setId(province1.getId());
-        assertThat(province1).isEqualTo(province2);
-        province2.setId(2L);
-        assertThat(province1).isNotEqualTo(province2);
-        province1.setId(null);
-        assertThat(province1).isNotEqualTo(province2);
     }
 }

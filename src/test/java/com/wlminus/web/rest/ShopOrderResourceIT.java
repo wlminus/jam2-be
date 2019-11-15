@@ -38,21 +38,18 @@ public class ShopOrderResourceIT {
 
     private static final Double DEFAULT_TOTAL_PRICE = 0D;
     private static final Double UPDATED_TOTAL_PRICE = 1D;
-    private static final Double SMALLER_TOTAL_PRICE = 0D - 1D;
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_CREATED_DATE = 1L;
     private static final Long UPDATED_CREATED_DATE = 2L;
-    private static final Long SMALLER_CREATED_DATE = 1L - 1L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final Long DEFAULT_MODIFIED_DATE = 1L;
     private static final Long UPDATED_MODIFIED_DATE = 2L;
-    private static final Long SMALLER_MODIFIED_DATE = 1L - 1L;
 
     @Autowired
     private ShopOrderRepository shopOrderRepository;
@@ -198,11 +195,11 @@ public class ShopOrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(shopOrder.getId().intValue())))
-            .andExpect(jsonPath("$.[*].orderStatus").value(hasItem(DEFAULT_ORDER_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].orderStatus").value(hasItem(DEFAULT_ORDER_STATUS)))
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.intValue())));
     }
     
@@ -217,11 +214,11 @@ public class ShopOrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(shopOrder.getId().intValue()))
-            .andExpect(jsonPath("$.orderStatus").value(DEFAULT_ORDER_STATUS.toString()))
+            .andExpect(jsonPath("$.orderStatus").value(DEFAULT_ORDER_STATUS))
             .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.intValue()));
     }
 
@@ -304,20 +301,5 @@ public class ShopOrderResourceIT {
         // Validate the database contains one less item
         List<ShopOrder> shopOrderList = shopOrderRepository.findAll();
         assertThat(shopOrderList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ShopOrder.class);
-        ShopOrder shopOrder1 = new ShopOrder();
-        shopOrder1.setId(1L);
-        ShopOrder shopOrder2 = new ShopOrder();
-        shopOrder2.setId(shopOrder1.getId());
-        assertThat(shopOrder1).isEqualTo(shopOrder2);
-        shopOrder2.setId(2L);
-        assertThat(shopOrder1).isNotEqualTo(shopOrder2);
-        shopOrder1.setId(null);
-        assertThat(shopOrder1).isNotEqualTo(shopOrder2);
     }
 }
