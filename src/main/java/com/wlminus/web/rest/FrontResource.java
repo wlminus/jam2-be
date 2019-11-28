@@ -8,6 +8,7 @@ import com.wlminus.service.dto.CartDTO;
 import com.wlminus.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/front")
@@ -105,9 +104,6 @@ public class FrontResource {
         customer.setDistrict(cart.getDistrict());
         customer.setWard(cart.getWard());
 
-//        for (ProductInCartDTO desc: cart.getListCard()) {
-//            OrderDesc tmp = new OrderDesc();
-//        }
         return;
     }
 
@@ -140,10 +136,24 @@ public class FrontResource {
         }
     }
 
-    @GetMapping("/config/product/new")
+    @GetMapping("/config/product/hot")
     public ResponseEntity<List<Product>> getNewProduct() {
-        log.debug("FRONT. REST request to get new product by config list :");
+        log.debug("FRONT. REST request to get hot product by config list :");
         return ResponseEntity.ok().body(productRepository.findAllByIsValidIsTrue());
+    }
+
+    @GetMapping("/related-product")
+    public ResponseEntity<List<Product>> getRelatedProduct() {
+        log.debug("FRONT. REST request to get hot product by config list :");
+        Long currentCount = productRepository.count();
+        if (currentCount <= 4) {
+            return ResponseEntity.ok().body(productRepository.findAll());
+        } else {
+            final long[] randomSeedArr = new Random().longs(1, currentCount).distinct().limit(4).toArray();
+            Long[] randomSeedObjectArr = ArrayUtils.toObject(randomSeedArr);
+            List<Long> randomSeedObjectList = Arrays.asList(randomSeedObjectArr);
+            return ResponseEntity.ok().body(productRepository.findTop4ByIdIn(randomSeedObjectList));
+        }
     }
 
     @GetMapping("/province")

@@ -45,5 +45,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         countQuery = "select count(distinct product) from Product product where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%")
     Page<Product> searchProduct(@Param("query") String query, Pageable pageable);
 
+    @Query(value = "select distinct product from Product product left join fetch product.media")
     List<Product> findAllByIsValidIsTrue();
+
+    List<Product> findTop4ByIdIn(List<Long> listID);
+
+    long count();
 }
