@@ -48,7 +48,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select distinct product from Product product left join fetch product.media")
     List<Product> findAllByIsValidIsTrue();
 
-    List<Product> findTop4ByIdIn(List<Long> listID);
+    @Query(value = "select distinct product from Product product left join fetch product.media where product.id in :arr")
+    List<Product> findRelated(@Param("arr") List<Long> listID, Pageable pageable);
 
     long count();
 }

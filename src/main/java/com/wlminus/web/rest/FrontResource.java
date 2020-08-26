@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -152,7 +153,8 @@ public class FrontResource {
             final long[] randomSeedArr = new Random().longs(1, currentCount).distinct().limit(4).toArray();
             Long[] randomSeedObjectArr = ArrayUtils.toObject(randomSeedArr);
             List<Long> randomSeedObjectList = Arrays.asList(randomSeedObjectArr);
-            return ResponseEntity.ok().body(productRepository.findTop4ByIdIn(randomSeedObjectList));
+            Pageable top4 = PageRequest.of(0, 4);
+            return ResponseEntity.ok().body(productRepository.findRelated(randomSeedObjectList, top4));
         }
     }
 
