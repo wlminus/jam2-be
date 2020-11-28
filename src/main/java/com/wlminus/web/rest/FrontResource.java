@@ -146,16 +146,16 @@ public class FrontResource {
     @GetMapping("/related-product")
     public ResponseEntity<List<Product>> getRelatedProduct() {
         log.debug("FRONT. REST request to get hot product by config list :");
-        Long currentCount = productRepository.count();
+        long currentCount = productRepository.count();
         if (currentCount <= 4) {
-            return ResponseEntity.ok().body(productRepository.findAll());
-        } else {
-            final long[] randomSeedArr = new Random().longs(1, currentCount).distinct().limit(4).toArray();
-            Long[] randomSeedObjectArr = ArrayUtils.toObject(randomSeedArr);
-            List<Long> randomSeedObjectList = Arrays.asList(randomSeedObjectArr);
-            Pageable top4 = PageRequest.of(0, 4);
-            return ResponseEntity.ok().body(productRepository.findRelated(randomSeedObjectList, top4));
+            return  ResponseEntity.ok().body(productRepository.findAllData());
         }
+        final long[] randomSeedArr = new Random().longs(1, currentCount).distinct().limit(4).toArray();
+        Long[] randomSeedObjectArr = ArrayUtils.toObject(randomSeedArr);
+        List<Long> randomSeedObjectList = Arrays.asList(randomSeedObjectArr);
+        Pageable top4 = PageRequest.of(0, 4);
+        return ResponseEntity.ok().body(productRepository.findRelated(randomSeedObjectList, top4));
+
     }
 
     @GetMapping("/province")

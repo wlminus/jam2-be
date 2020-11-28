@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllWithEagerRelationships(Pageable pageable);
 
     @Query("select distinct product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags")
-    List<Product> findAllWithEagerRelationships();
+    List<Product> findAllData();
 
     @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.id =:id")
     Optional<Product> findOneWithEagerRelationships(@Param("id") Long id);
@@ -48,7 +48,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select distinct product from Product product left join fetch product.media")
     List<Product> findAllByIsValidIsTrue();
 
-    @Query(value = "select distinct product from Product product left join fetch product.media where product.id in :arr")
+    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.id in :arr")
     List<Product> findRelated(@Param("arr") List<Long> listID, Pageable pageable);
 
     long count();
