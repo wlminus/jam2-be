@@ -5,7 +5,7 @@ import com.wlminus.domain.enumeration.ConfigKey;
 import com.wlminus.repository.*;
 import com.wlminus.service.ProductService;
 import com.wlminus.service.dto.CartDTO;
-import com.wlminus.web.rest.errors.BadRequestAlertException;
+import com.wlminus.service.dto.ProductInCartDTO;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -40,16 +40,23 @@ public class FrontResource {
     private final AppConstRepository appConstRepository;
     private final MediaRepository mediaRepository;
 
+    private final CustomerRepository customerRepository;
+    private final ProductSizeRepository productSizeRepository;
+    private final ShopOrderRepository shopOrderRepository;
+
     private final ProvinceRepository provinceRepository;
     private final DistrictRepository districtRepository;
     private final WardRepository wardRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, CustomerRepository customerRepository, ProductSizeRepository productSizeRepository, ShopOrderRepository shopOrderRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
         this.appConstRepository = appConstRepository;
         this.mediaRepository = mediaRepository;
+        this.customerRepository = customerRepository;
+        this.productSizeRepository = productSizeRepository;
+        this.shopOrderRepository = shopOrderRepository;
         this.provinceRepository = provinceRepository;
         this.districtRepository = districtRepository;
         this.wardRepository = wardRepository;
@@ -91,21 +98,66 @@ public class FrontResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @PostMapping("/card")
-    public void createProduct(@Valid @RequestBody CartDTO cart) throws URISyntaxException {
+    @PostMapping("/order")
+    public ResponseEntity<String> createProduct(@Valid @RequestBody CartDTO cart) {
         log.debug("REST request to create order : {}", cart);
-        if (cart.getId() != null) {
-            throw new BadRequestAlertException("A new order cannot already have an ID", ENTITY_NAME, "idexists");
+
+        ShopOrder newOrder = new ShopOrder();
+        newOrder.setProvince(cart.getProvince());
+        newOrder.setDistrict(cart.getDistrict());
+        newOrder.setWard(cart.getWard());
+
+        newOrder.setOrderStatus("Tiếp nhận");
+        //ShipType
+        newOrder.setCreatedBy(cart.getShipType());
+        newOrder.setModifiedBy(cart.getCustomerNote());
+
+        Set<OrderDesc> orderDescSet = new HashSet<>();
+        double totalPrice = 0D;
+        //Calculate total price
+        for (ProductInCartDTO currentProduct: cart.getOrderList()) {
+            Optional<Product> productToGetPrice = productRepository.findById(currentProduct.getProduct().getId());
+            if (productToGetPrice.isPresent()) {
+                OrderDesc orderDesc = new OrderDesc();
+
+                orderDesc.setProduct(productToGetPrice.get());
+                orderDesc.setCount(currentProduct.getAmount());
+
+                Optional<ProductSize> size = productSizeRepository.findBySizeName(currentProduct.getSize());
+                if (size.isPresent()) {
+                    Double sizeId = (double)size.get().getId();
+                    orderDesc.setOrderPrice(sizeId);
+                } else {
+                    orderDesc.setOrderPrice(-1D);
+                }
+                double currentPrice = (double) (productToGetPrice.get().getFinalPrice() * currentProduct.getAmount());
+                orderDesc.setFinalPrice(currentPrice);
+
+                totalPrice += currentPrice;
+                orderDescSet.add(orderDesc);
+            }
         }
-        Customer customer = new Customer();
-        customer.setCustomerName(cart.getCustomerName());
-        customer.setTel(cart.getMobilePhone());
+        newOrder.setOrderDescs(orderDescSet);
+        newOrder.setTotalPrice(totalPrice);
 
-        customer.setProvince(cart.getProvince());
-        customer.setDistrict(cart.getDistrict());
-        customer.setWard(cart.getWard());
+        Optional<Customer> isOld = customerRepository.findCustomerByCustomerNameAndAndTel(cart.getCustomerName(), cart.getCustomerPhone());
+        if (isOld.isPresent()) {
+            newOrder.setCustomer(isOld.get());
+        } else {
+            Customer newCustomer = new Customer();
+            newCustomer.setCustomerName(cart.getCustomerName());
+            newCustomer.setTel(cart.getCustomerPhone());
 
-        return;
+            newCustomer.setDistrict(cart.getDistrict());
+            newCustomer.setDistrict(cart.getDistrict());
+            newCustomer.setWard(cart.getWard());
+
+            Customer savedCustomer = customerRepository.save(newCustomer);
+            newOrder.setCustomer(savedCustomer);
+        }
+
+        shopOrderRepository.save(newOrder);
+        return ResponseEntity.ok("Tiếp nhận order thành công!");
     }
 
     @GetMapping("/config/media")

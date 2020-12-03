@@ -9,9 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CartDTO {
-    private Long id;
-
-    List<ProductInCartDTO> listCard;
+    List<ProductInCartDTO> orderList;
 
     @Size(max = 200)
     @NotBlank
@@ -19,11 +17,15 @@ public class CartDTO {
 
     @Size(max = 200)
     @NotBlank
-    private String mobilePhone;
+    private String customerPhone;
 
     @Size(max = 1000)
-    @NotBlank
-    private String address;
+    private String customerAddress;
+
+    @Size(max = 1000)
+    private String customerNote;
+
+    private String shipType;
 
     private Province province;
     private District district;
@@ -32,20 +34,24 @@ public class CartDTO {
     public CartDTO() {
     }
 
-    public Long getId() {
-        return id;
+    public CartDTO(List<ProductInCartDTO> orderList, @Size(max = 200) @NotBlank String customerName, @Size(max = 200) @NotBlank String customerPhone, @Size(max = 1000) String customerAddress, @Size(max = 1000) String customerNote, String shipType, Province province, District district, Ward ward) {
+        this.orderList = orderList;
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.customerAddress = customerAddress;
+        this.customerNote = customerNote;
+        this.shipType = shipType;
+        this.province = province;
+        this.district = district;
+        this.ward = ward;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public List<ProductInCartDTO> getOrderList() {
+        return orderList;
     }
 
-    public List<ProductInCartDTO> getListCard() {
-        return listCard;
-    }
-
-    public void setListCard(List<ProductInCartDTO> listCard) {
-        this.listCard = listCard;
+    public void setOrderList(List<ProductInCartDTO> orderList) {
+        this.orderList = orderList;
     }
 
     public String getCustomerName() {
@@ -56,12 +62,36 @@ public class CartDTO {
         this.customerName = customerName;
     }
 
-    public String getMobilePhone() {
-        return mobilePhone;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    public String getCustomerNote() {
+        return customerNote;
+    }
+
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
+    }
+
+    public String getShipType() {
+        return shipType;
+    }
+
+    public void setShipType(String shipType) {
+        this.shipType = shipType;
     }
 
     public Province getProvince() {
@@ -86,18 +116,5 @@ public class CartDTO {
 
     public void setWard(Ward ward) {
         this.ward = ward;
-    }
-
-    @Override
-    public String toString() {
-        return "CardDTO{" +
-            "id=" + id +
-            ", listCard=" + listCard +
-            ", customerName='" + customerName + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", province='" + province + '\'' +
-            ", district='" + district + '\'' +
-            ", ward='" + ward + '\'' +
-            '}';
     }
 }
