@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 import java.util.*;
 
 @RestController
@@ -43,12 +42,13 @@ public class FrontResource {
     private final CustomerRepository customerRepository;
     private final ProductSizeRepository productSizeRepository;
     private final ShopOrderRepository shopOrderRepository;
+    private final OrderDescRepository orderDescRepository;
 
     private final ProvinceRepository provinceRepository;
     private final DistrictRepository districtRepository;
     private final WardRepository wardRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, CustomerRepository customerRepository, ProductSizeRepository productSizeRepository, ShopOrderRepository shopOrderRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, CustomerRepository customerRepository, ProductSizeRepository productSizeRepository, ShopOrderRepository shopOrderRepository, OrderDescRepository orderDescRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
@@ -57,6 +57,7 @@ public class FrontResource {
         this.customerRepository = customerRepository;
         this.productSizeRepository = productSizeRepository;
         this.shopOrderRepository = shopOrderRepository;
+        this.orderDescRepository = orderDescRepository;
         this.provinceRepository = provinceRepository;
         this.districtRepository = districtRepository;
         this.wardRepository = wardRepository;
@@ -107,10 +108,12 @@ public class FrontResource {
         newOrder.setDistrict(cart.getDistrict());
         newOrder.setWard(cart.getWard());
 
-        newOrder.setOrderStatus("Tiếp nhận");
+        newOrder.setOrderStatus("1");
         //ShipType
         newOrder.setCreatedBy(cart.getShipType());
         newOrder.setModifiedBy(cart.getCustomerNote());
+
+        newOrder.setCreatedDate(System.currentTimeMillis());
 
         Set<OrderDesc> orderDescSet = new HashSet<>();
         double totalPrice = 0D;
@@ -156,7 +159,11 @@ public class FrontResource {
             newOrder.setCustomer(savedCustomer);
         }
 
-        shopOrderRepository.save(newOrder);
+        ShopOrder saved = shopOrderRepository.save(newOrder);
+        for (OrderDesc orderDesc: orderDescSet) {
+            orderDesc.setShopOrder(saved);
+        }
+        orderDescRepository.saveAll(orderDescSet);
         return ResponseEntity.ok("Tiếp nhận order thành công!");
     }
 

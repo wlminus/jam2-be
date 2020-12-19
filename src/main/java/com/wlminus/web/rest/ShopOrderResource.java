@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -44,34 +44,18 @@ public class ShopOrderResource {
         this.shopOrderRepository = shopOrderRepository;
     }
 
-    /**
-     * {@code POST  /shop-orders} : Create a new shopOrder.
-     *
-     * @param shopOrder the shopOrder to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new shopOrder, or with status {@code 400 (Bad Request)} if the shopOrder has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/shop-orders")
-    public ResponseEntity<ShopOrder> createShopOrder(@Valid @RequestBody ShopOrder shopOrder) throws URISyntaxException {
-        log.debug("REST request to save ShopOrder : {}", shopOrder);
-        if (shopOrder.getId() != null) {
-            throw new BadRequestAlertException("A new shopOrder cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        ShopOrder result = shopOrderRepository.save(shopOrder);
-        return ResponseEntity.created(new URI("/api/shop-orders/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
+//    @PostMapping("/shop-orders")
+//    public ResponseEntity<ShopOrder> createShopOrder(@Valid @RequestBody ShopOrder shopOrder) throws URISyntaxException {
+//        log.debug("REST request to save ShopOrder : {}", shopOrder);
+//        if (shopOrder.getId() != null) {
+//            throw new BadRequestAlertException("A new shopOrder cannot already have an ID", ENTITY_NAME, "idexists");
+//        }
+//        ShopOrder result = shopOrderRepository.save(shopOrder);
+//        return ResponseEntity.created(new URI("/api/shop-orders/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+//            .body(result);
+//    }
 
-    /**
-     * {@code PUT  /shop-orders} : Updates an existing shopOrder.
-     *
-     * @param shopOrder the shopOrder to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated shopOrder,
-     * or with status {@code 400 (Bad Request)} if the shopOrder is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the shopOrder couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/shop-orders")
     public ResponseEntity<ShopOrder> updateShopOrder(@Valid @RequestBody ShopOrder shopOrder) throws URISyntaxException {
         log.debug("REST request to update ShopOrder : {}", shopOrder);
@@ -84,28 +68,22 @@ public class ShopOrderResource {
             .body(result);
     }
 
-    /**
-     * {@code GET  /shop-orders} : get all the shopOrders.
-     *
-
-     * @param pageable the pagination information.
-
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of shopOrders in body.
-     */
     @GetMapping("/shop-orders")
     public ResponseEntity<List<ShopOrder>> getAllShopOrders(Pageable pageable) {
         log.debug("REST request to get a page of ShopOrders");
-        Page<ShopOrder> page = shopOrderRepository.findAll(pageable);
+        Page<ShopOrder> page = shopOrderRepository.findAllOrder(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /shop-orders/:id} : get the "id" shopOrder.
-     *
-     * @param id the id of the shopOrder to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the shopOrder, or with status {@code 404 (Not Found)}.
-     */
+    @GetMapping("/shop-orders/status/{status}")
+    public ResponseEntity<List<ShopOrder>> getAllShopOrders(Pageable pageable, @PathVariable String status) {
+        log.debug("REST request to get a page of ShopOrders");
+        Page<ShopOrder> page = shopOrderRepository.findWithStatus(pageable, status);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     @GetMapping("/shop-orders/{id}")
     public ResponseEntity<ShopOrder> getShopOrder(@PathVariable Long id) {
         log.debug("REST request to get ShopOrder : {}", id);
