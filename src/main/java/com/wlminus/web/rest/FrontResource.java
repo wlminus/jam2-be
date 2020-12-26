@@ -110,8 +110,9 @@ public class FrontResource {
 
         newOrder.setOrderStatus("1");
         //ShipType
-        newOrder.setCreatedBy(cart.getShipType());
+        newOrder.setCreatedBy(cart.getCustomerAddress());
         newOrder.setModifiedBy(cart.getCustomerNote());
+        newOrder.setModifiedDate(cart.getShipType());
 
         newOrder.setCreatedDate(System.currentTimeMillis());
 
@@ -151,7 +152,7 @@ public class FrontResource {
             newCustomer.setCustomerName(cart.getCustomerName());
             newCustomer.setTel(cart.getCustomerPhone());
 
-            newCustomer.setDistrict(cart.getDistrict());
+            newCustomer.setProvince(cart.getProvince());
             newCustomer.setDistrict(cart.getDistrict());
             newCustomer.setWard(cart.getWard());
 
@@ -207,14 +208,18 @@ public class FrontResource {
         log.debug("FRONT. REST request to get hot product by config list :");
         long currentCount = productRepository.count();
         if (currentCount <= 4) {
-            return  ResponseEntity.ok().body(productRepository.findAllData());
+            return ResponseEntity.ok().body(productRepository.findAllData());
         }
         final long[] randomSeedArr = new Random().longs(1, currentCount).distinct().limit(4).toArray();
-        Long[] randomSeedObjectArr = ArrayUtils.toObject(randomSeedArr);
-        List<Long> randomSeedObjectList = Arrays.asList(randomSeedObjectArr);
-        Pageable top4 = PageRequest.of(0, 4);
-        return ResponseEntity.ok().body(productRepository.findRelated(randomSeedObjectList, top4));
 
+        List<Product> allDataProduct = productRepository.findAllData();
+        List<Product> random4Data = new ArrayList<>();
+        for (long index: randomSeedArr) {
+            int indexInInt = ((int) index);
+            random4Data.add(allDataProduct.get(indexInInt));
+        }
+
+        return ResponseEntity.ok().body(random4Data);
     }
 
     @GetMapping("/province")

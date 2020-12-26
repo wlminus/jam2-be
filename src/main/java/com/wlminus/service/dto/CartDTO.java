@@ -25,7 +25,7 @@ public class CartDTO {
     @Size(max = 1000)
     private String customerNote;
 
-    private String shipType;
+    private long shipType;
 
     private Province province;
     private District district;
@@ -34,7 +34,7 @@ public class CartDTO {
     public CartDTO() {
     }
 
-    public CartDTO(List<ProductInCartDTO> orderList, @Size(max = 200) @NotBlank String customerName, @Size(max = 200) @NotBlank String customerPhone, @Size(max = 1000) String customerAddress, @Size(max = 1000) String customerNote, String shipType, Province province, District district, Ward ward) {
+    public CartDTO(List<ProductInCartDTO> orderList, @Size(max = 200) @NotBlank String customerName, @Size(max = 200) @NotBlank String customerPhone, @Size(max = 1000) String customerAddress, @Size(max = 1000) String customerNote, long shipType, Province province, District district, Ward ward) {
         this.orderList = orderList;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
@@ -86,11 +86,11 @@ public class CartDTO {
         this.customerNote = customerNote;
     }
 
-    public String getShipType() {
+    public long getShipType() {
         return shipType;
     }
 
-    public void setShipType(String shipType) {
+    public void setShipType(long shipType) {
         this.shipType = shipType;
     }
 
