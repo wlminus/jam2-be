@@ -24,8 +24,8 @@ public class OrderDesc implements Serializable {
 
     @NotNull
     @Min(value = 1L)
-    @Column(name = "count", nullable = false)
-    private Long count;
+    @Column(name = "amount", nullable = false)
+    private Long amount;
 
     @NotNull
     @DecimalMin(value = "0")
@@ -37,9 +37,12 @@ public class OrderDesc implements Serializable {
     @Column(name = "final_price", nullable = false)
     private Double finalPrice;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @Size(max = 200)
+    @Column(name = "size", length = 200)
+    private String size;
 
-    @JoinColumn(unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("shopOrders")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,26 +58,16 @@ public class OrderDesc implements Serializable {
         this.id = id;
     }
 
-    public Long getCount() {
-        return count;
+    public Long getAmount() {
+        return amount;
     }
 
-    public OrderDesc count(Long count) {
-        this.count = count;
-        return this;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
     public Double getOrderPrice() {
         return orderPrice;
-    }
-
-    public OrderDesc orderPrice(Double orderPrice) {
-        this.orderPrice = orderPrice;
-        return this;
     }
 
     public void setOrderPrice(Double orderPrice) {
@@ -85,22 +78,20 @@ public class OrderDesc implements Serializable {
         return finalPrice;
     }
 
-    public OrderDesc finalPrice(Double finalPrice) {
-        this.finalPrice = finalPrice;
-        return this;
-    }
-
     public void setFinalPrice(Double finalPrice) {
         this.finalPrice = finalPrice;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getSize() {
+        return size;
     }
 
-    public OrderDesc product(Product product) {
-        this.product = product;
-        return this;
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public void setProduct(Product product) {
@@ -111,14 +102,10 @@ public class OrderDesc implements Serializable {
         return shopOrder;
     }
 
-    public OrderDesc shopOrder(ShopOrder shopOrder) {
-        this.shopOrder = shopOrder;
-        return this;
-    }
-
     public void setShopOrder(ShopOrder shopOrder) {
         this.shopOrder = shopOrder;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -140,10 +127,13 @@ public class OrderDesc implements Serializable {
     @Override
     public String toString() {
         return "OrderDesc{" +
-            "id=" + getId() +
-            ", count=" + getCount() +
-            ", orderPrice=" + getOrderPrice() +
-            ", finalPrice=" + getFinalPrice() +
-            "}";
+            "id=" + id +
+            ", amount=" + amount +
+            ", orderPrice=" + orderPrice +
+            ", finalPrice=" + finalPrice +
+            ", size='" + size + '\'' +
+            ", product=" + product +
+            ", shopOrder=" + shopOrder +
+            '}';
     }
 }

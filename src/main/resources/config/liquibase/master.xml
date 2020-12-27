@@ -16,9 +16,9 @@
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134553_added_entity_AppConst.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134554_added_entity_Category.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190714134555_added_entity_Customer.xml" relativeToChangelogFile="false"/>
+
     <include file="config/liquibase/changelog/20190714134556_added_entity_Media.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190714134557_added_entity_ShopNew.xml" relativeToChangelogFile="false"/>
+
     <include file="config/liquibase/changelog/20190714134558_added_entity_Product.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134559_added_entity_ProductSize.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134600_added_entity_ShopOrder.xml" relativeToChangelogFile="false"/>
@@ -28,8 +28,8 @@
     <include file="config/liquibase/changelog/20190714134604_added_entity_District.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134605_added_entity_Ward.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20190714134555_added_entity_constraints_Customer.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190714134557_added_entity_constraints_ShopNew.xml" relativeToChangelogFile="false"/>
+
+
     <include file="config/liquibase/changelog/20190714134558_added_entity_constraints_Product.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134600_added_entity_constraints_ShopOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190714134601_added_entity_constraints_OrderDesc.xml" relativeToChangelogFile="false"/>

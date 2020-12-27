@@ -24,28 +24,54 @@ public class ShopOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(max = 30)
+    @Column(name = "order_code", length = 30)
+    private String orderCode;
+
+    @Min(value = 0)
+    @Max(value = 10)
+    @Column(name = "order_status")
+    private Integer orderStatus;
+
+    @Size(max = 300)
+    @Column(name = "customer_name", length = 300)
+    private String customerName;
+
     @Size(max = 100)
-    @Column(name = "order_status", length = 100)
-    private String orderStatus;
+    @Column(name = "customer_phone", length = 100)
+    private String customerPhone;
+
+    @Size(max = 500)
+    @Column(name = "customer_address", length = 500)
+    private String customerAddress;
+
+    @Size(max = 1000)
+    @Column(name = "customer_note", length = 1000)
+    private String customerNote;
+
+    @Size(max = 100)
+    @Column(name = "ship_type", length = 100)
+    private String shipType;
 
     @NotNull
     @DecimalMin(value = "0")
     @Column(name = "total_price", nullable = false)
     private Double totalPrice;
 
-    @Size(max = 200)
-    @Column(name = "created_by", length = 200)
-    private String createdBy;
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "total_item", nullable = false)
+    private Integer totalItem;
 
     @Column(name = "created_date")
     private Long createdDate;
 
     @Size(max = 200)
-    @Column(name = "modified_by", length = 200)
-    private String modifiedBy;
+    @Column(name = "process_by", length = 200)
+    private String processBy;
 
-    @Column(name = "modified_date")
-    private Long modifiedDate;
+    @Column(name = "process_date")
+    private Long processDate;
 
     @OneToMany(mappedBy = "shopOrder")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -63,9 +89,6 @@ public class ShopOrder implements Serializable {
     @JsonIgnoreProperties("shopOrders")
     private Ward ward;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("shopOrders")
-    private Customer customer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -76,103 +99,104 @@ public class ShopOrder implements Serializable {
         this.id = id;
     }
 
-    public String getOrderStatus() {
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public Integer getOrderStatus() {
         return orderStatus;
     }
 
-    public ShopOrder orderStatus(String orderStatus) {
+    public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
-        return this;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    public String getCustomerNote() {
+        return customerNote;
+    }
+
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
+    }
+
+    public String getShipType() {
+        return shipType;
+    }
+
+    public void setShipType(String shipType) {
+        this.shipType = shipType;
     }
 
     public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public ShopOrder totalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-        return this;
-    }
-
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public Integer getTotalItem() {
+        return totalItem;
     }
 
-    public ShopOrder createdBy(String createdBy) {
-        this.createdBy = createdBy;
-        return this;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setTotalItem(Integer totalItem) {
+        this.totalItem = totalItem;
     }
 
     public Long getCreatedDate() {
         return createdDate;
     }
 
-    public ShopOrder createdDate(Long createdDate) {
-        this.createdDate = createdDate;
-        return this;
-    }
-
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getModifiedBy() {
-        return modifiedBy;
+    public String getProcessBy() {
+        return processBy;
     }
 
-    public ShopOrder modifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-        return this;
+    public void setProcessBy(String processBy) {
+        this.processBy = processBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
+    public Long getProcessDate() {
+        return processDate;
     }
 
-    public Long getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public ShopOrder modifiedDate(Long modifiedDate) {
-        this.modifiedDate = modifiedDate;
-        return this;
-    }
-
-    public void setModifiedDate(Long modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setProcessDate(Long processDate) {
+        this.processDate = processDate;
     }
 
     public Set<OrderDesc> getOrderDescs() {
         return orderDescs;
-    }
-
-    public ShopOrder orderDescs(Set<OrderDesc> orderDescs) {
-        this.orderDescs = orderDescs;
-        return this;
-    }
-
-    public ShopOrder addOrderDesc(OrderDesc orderDesc) {
-        this.orderDescs.add(orderDesc);
-        orderDesc.setShopOrder(this);
-        return this;
-    }
-
-    public ShopOrder removeOrderDesc(OrderDesc orderDesc) {
-        this.orderDescs.remove(orderDesc);
-        orderDesc.setShopOrder(null);
-        return this;
     }
 
     public void setOrderDescs(Set<OrderDesc> orderDescs) {
@@ -183,22 +207,12 @@ public class ShopOrder implements Serializable {
         return province;
     }
 
-    public ShopOrder province(Province province) {
-        this.province = province;
-        return this;
-    }
-
     public void setProvince(Province province) {
         this.province = province;
     }
 
     public District getDistrict() {
         return district;
-    }
-
-    public ShopOrder district(District district) {
-        this.district = district;
-        return this;
     }
 
     public void setDistrict(District district) {
@@ -209,27 +223,10 @@ public class ShopOrder implements Serializable {
         return ward;
     }
 
-    public ShopOrder ward(Ward ward) {
-        this.ward = ward;
-        return this;
-    }
-
     public void setWard(Ward ward) {
         this.ward = ward;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public ShopOrder customer(Customer customer) {
-        this.customer = customer;
-        return this;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -251,13 +248,23 @@ public class ShopOrder implements Serializable {
     @Override
     public String toString() {
         return "ShopOrder{" +
-            "id=" + getId() +
-            ", orderStatus='" + getOrderStatus() + "'" +
-            ", totalPrice=" + getTotalPrice() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate=" + getCreatedDate() +
-            ", modifiedBy='" + getModifiedBy() + "'" +
-            ", modifiedDate=" + getModifiedDate() +
-            "}";
+            "id=" + id +
+            ", orderCode='" + orderCode + '\'' +
+            ", orderStatus=" + orderStatus +
+            ", customerName='" + customerName + '\'' +
+            ", customerPhone='" + customerPhone + '\'' +
+            ", customerAddress='" + customerAddress + '\'' +
+            ", customerNote='" + customerNote + '\'' +
+            ", shipType='" + shipType + '\'' +
+            ", totalPrice=" + totalPrice +
+            ", totalItem=" + totalItem +
+            ", createdDate=" + createdDate +
+            ", processBy='" + processBy + '\'' +
+            ", processDate=" + processDate +
+            ", orderDescs=" + orderDescs +
+            ", province=" + province +
+            ", district=" + district +
+            ", ward=" + ward +
+            '}';
     }
 }

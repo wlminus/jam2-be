@@ -112,9 +112,9 @@ public class Product implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToOne(mappedBy = "product")
+    @OneToMany(mappedBy = "product")
     @JsonIgnore
-    private OrderDesc orderDesc;
+    private Set<OrderDesc> orderDesc;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -408,18 +408,14 @@ public class Product implements Serializable {
         this.tags = tags;
     }
 
-    public OrderDesc getOrderDesc() {
+    public Set<OrderDesc> getOrderDesc() {
         return orderDesc;
     }
 
-    public Product orderDesc(OrderDesc orderDesc) {
+    public void setOrderDesc(Set<OrderDesc> orderDesc) {
         this.orderDesc = orderDesc;
-        return this;
     }
 
-    public void setOrderDesc(OrderDesc orderDesc) {
-        this.orderDesc = orderDesc;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

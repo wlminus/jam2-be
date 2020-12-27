@@ -16,6 +16,10 @@ public final class Constants {
     public static final String ALLOWED_FILE_TYPE[] = {"image/png","image/jpeg","image/gif"};
     public static final int MAX_FILE_NAME_SIZE = 1900;
 
+    public static final String ORDER_STATUS_1 = "ĐÃ TIẾP NHẬN";
+    public static final String ORDER_STATUS_2 = "ĐANG XỬ LÝ";
+    public static final String ORDER_STATUS_3 = "ĐÃ HOÀN THÀNH";
+
     public static final String HOME_SLIDE_LIST = "HOME_SLIDE_LIST";
 
     private Constants() {

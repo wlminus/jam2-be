@@ -42,10 +42,6 @@ public class District implements Serializable {
 
     @OneToMany(mappedBy = "district")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Customer> customers = new HashSet<>();
-
-    @OneToMany(mappedBy = "district")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ShopOrder> shopOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -121,30 +117,30 @@ public class District implements Serializable {
         this.province = province;
     }
 
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public District customers(Set<Customer> customers) {
-        this.customers = customers;
-        return this;
-    }
-
-    public District addCustomer(Customer customer) {
-        this.customers.add(customer);
-        customer.setDistrict(this);
-        return this;
-    }
-
-    public District removeCustomer(Customer customer) {
-        this.customers.remove(customer);
-        customer.setDistrict(null);
-        return this;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
-    }
+//    public Set<Customer> getCustomers() {
+//        return customers;
+//    }
+//
+//    public District customers(Set<Customer> customers) {
+//        this.customers = customers;
+//        return this;
+//    }
+//
+//    public District addCustomer(Customer customer) {
+//        this.customers.add(customer);
+//        customer.setDistrict(this);
+//        return this;
+//    }
+//
+//    public District removeCustomer(Customer customer) {
+//        this.customers.remove(customer);
+//        customer.setDistrict(null);
+//        return this;
+//    }
+//
+//    public void setCustomers(Set<Customer> customers) {
+//        this.customers = customers;
+//    }
 
     public Set<ShopOrder> getShopOrders() {
         return shopOrders;

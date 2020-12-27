@@ -45,12 +45,8 @@ public class CacheConfiguration {
             createCache(cm, com.wlminus.domain.User.class.getName() + ".authorities");
             createCache(cm, com.wlminus.domain.AppConst.class.getName());
             createCache(cm, com.wlminus.domain.Category.class.getName());
-            createCache(cm, com.wlminus.domain.Customer.class.getName());
-            createCache(cm, com.wlminus.domain.Customer.class.getName() + ".shopOrders");
             createCache(cm, com.wlminus.domain.Media.class.getName());
             createCache(cm, com.wlminus.domain.Media.class.getName() + ".products");
-            createCache(cm, com.wlminus.domain.ShopNew.class.getName());
-            createCache(cm, com.wlminus.domain.ShopNew.class.getName() + ".tags");
             createCache(cm, com.wlminus.domain.Product.class.getName());
             createCache(cm, com.wlminus.domain.Product.class.getName() + ".media");
             createCache(cm, com.wlminus.domain.Product.class.getName() + ".productSizes");

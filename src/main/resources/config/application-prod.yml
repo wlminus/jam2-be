@@ -28,7 +28,7 @@ management:
 spring:
   profiles:
     include:
-      - no-liquibase
+#      - no-liquibase
   devtools:
     restart:
       enabled: false

@@ -13,5 +13,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface WardRepository extends JpaRepository<Ward, Long> {
-    List<Ward> findAllByDistrictId(Long districtId);
+    List<Ward> findAllByDistrictId(Long id);
 }

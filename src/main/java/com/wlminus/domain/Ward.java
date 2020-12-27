@@ -38,10 +38,6 @@ public class Ward implements Serializable {
 
     @OneToMany(mappedBy = "ward")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Customer> customers = new HashSet<>();
-
-    @OneToMany(mappedBy = "ward")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ShopOrder> shopOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -90,31 +86,6 @@ public class Ward implements Serializable {
 
     public void setDistrict(District district) {
         this.district = district;
-    }
-
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public Ward customers(Set<Customer> customers) {
-        this.customers = customers;
-        return this;
-    }
-
-    public Ward addCustomer(Customer customer) {
-        this.customers.add(customer);
-        customer.setWard(this);
-        return this;
-    }
-
-    public Ward removeCustomer(Customer customer) {
-        this.customers.remove(customer);
-        customer.setWard(null);
-        return this;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
     }
 
     public Set<ShopOrder> getShopOrders() {

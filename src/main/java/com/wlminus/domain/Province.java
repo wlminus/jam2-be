@@ -1,4 +1,5 @@
 package com.wlminus.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -33,14 +34,12 @@ public class Province implements Serializable {
 
     @OneToMany(mappedBy = "province")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
     private Set<District> districts = new HashSet<>();
 
     @OneToMany(mappedBy = "province")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Customer> customers = new HashSet<>();
-
-    @OneToMany(mappedBy = "province")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
     private Set<ShopOrder> shopOrders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -101,31 +100,6 @@ public class Province implements Serializable {
 
     public void setDistricts(Set<District> districts) {
         this.districts = districts;
-    }
-
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public Province customers(Set<Customer> customers) {
-        this.customers = customers;
-        return this;
-    }
-
-    public Province addCustomer(Customer customer) {
-        this.customers.add(customer);
-        customer.setProvince(this);
-        return this;
-    }
-
-    public Province removeCustomer(Customer customer) {
-        this.customers.remove(customer);
-        customer.setProvince(null);
-        return this;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
     }
 
     public Set<ShopOrder> getShopOrders() {

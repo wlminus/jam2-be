@@ -13,5 +13,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Long> {
-    List<District> findAllByProvince_Id(Long provinceId);
+    List<District> findAllByProvinceId(Long id);
 }

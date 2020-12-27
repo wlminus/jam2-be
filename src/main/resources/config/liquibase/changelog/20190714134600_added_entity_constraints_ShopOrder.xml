@@ -7,7 +7,7 @@
         Added the constraints for entity ShopOrder.
     -->
     <changeSet id="20190714134600-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="province_id"
                                  baseTableName="shop_order"
                                  constraintName="fk_shop_order_province_id"
@@ -25,12 +25,6 @@
                                  constraintName="fk_shop_order_ward_id"
                                  referencedColumnNames="id"
                                  referencedTableName="ward"/>
-
-        <addForeignKeyConstraint baseColumnNames="customer_id"
-                                 baseTableName="shop_order"
-                                 constraintName="fk_shop_order_customer_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="customer"/>
 
     </changeSet>
 </databaseChangeLog>

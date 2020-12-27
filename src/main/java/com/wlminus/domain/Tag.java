@@ -37,11 +37,6 @@ public class Tag implements Serializable {
     @JsonIgnore
     private Set<Product> products = new HashSet<>();
 
-    @ManyToMany(mappedBy = "tags")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
-    private Set<ShopNew> news = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -100,31 +95,6 @@ public class Tag implements Serializable {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
-    }
-
-    public Set<ShopNew> getNews() {
-        return news;
-    }
-
-    public Tag news(Set<ShopNew> shopNews) {
-        this.news = shopNews;
-        return this;
-    }
-
-    public Tag addNew(ShopNew shopNew) {
-        this.news.add(shopNew);
-        shopNew.getTags().add(this);
-        return this;
-    }
-
-    public Tag removeNew(ShopNew shopNew) {
-        this.news.remove(shopNew);
-        shopNew.getTags().remove(this);
-        return this;
-    }
-
-    public void setNews(Set<ShopNew> shopNews) {
-        this.news = shopNews;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

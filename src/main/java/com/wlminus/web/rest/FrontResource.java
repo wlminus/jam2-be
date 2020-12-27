@@ -8,12 +8,10 @@ import com.wlminus.service.dto.CartDTO;
 import com.wlminus.service.dto.ProductInCartDTO;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +37,6 @@ public class FrontResource {
     private final AppConstRepository appConstRepository;
     private final MediaRepository mediaRepository;
 
-    private final CustomerRepository customerRepository;
     private final ProductSizeRepository productSizeRepository;
     private final ShopOrderRepository shopOrderRepository;
     private final OrderDescRepository orderDescRepository;
@@ -48,13 +45,12 @@ public class FrontResource {
     private final DistrictRepository districtRepository;
     private final WardRepository wardRepository;
 
-    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, CustomerRepository customerRepository, ProductSizeRepository productSizeRepository, ShopOrderRepository shopOrderRepository, OrderDescRepository orderDescRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
+    public FrontResource(CategoryRepository categoryRepository, ProductService productService, ProductRepository productRepository, AppConstRepository appConstRepository, MediaRepository mediaRepository, ProductSizeRepository productSizeRepository, ShopOrderRepository shopOrderRepository, OrderDescRepository orderDescRepository, ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
         this.categoryRepository = categoryRepository;
         this.productService = productService;
         this.productRepository = productRepository;
         this.appConstRepository = appConstRepository;
         this.mediaRepository = mediaRepository;
-        this.customerRepository = customerRepository;
         this.productSizeRepository = productSizeRepository;
         this.shopOrderRepository = shopOrderRepository;
         this.orderDescRepository = orderDescRepository;
@@ -62,6 +58,7 @@ public class FrontResource {
         this.districtRepository = districtRepository;
         this.wardRepository = wardRepository;
     }
+
 
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> getAllCategories() {
@@ -108,16 +105,17 @@ public class FrontResource {
         newOrder.setDistrict(cart.getDistrict());
         newOrder.setWard(cart.getWard());
 
-        newOrder.setOrderStatus("1");
+        newOrder.setOrderStatus(1);
         //ShipType
-        newOrder.setCreatedBy(cart.getCustomerAddress());
-        newOrder.setModifiedBy(cart.getCustomerNote());
-        newOrder.setModifiedDate(cart.getShipType());
+        newOrder.setCustomerAddress(cart.getCustomerAddress());
+        newOrder.setCustomerNote(cart.getCustomerNote());
+        newOrder.setShipType(cart.getShipType());
 
         newOrder.setCreatedDate(System.currentTimeMillis());
 
         Set<OrderDesc> orderDescSet = new HashSet<>();
         double totalPrice = 0D;
+        Integer totalItem = 0;
         //Calculate total price
         for (ProductInCartDTO currentProduct: cart.getOrderList()) {
             Optional<Product> productToGetPrice = productRepository.findById(currentProduct.getProduct().getId());
@@ -125,7 +123,7 @@ public class FrontResource {
                 OrderDesc orderDesc = new OrderDesc();
 
                 orderDesc.setProduct(productToGetPrice.get());
-                orderDesc.setCount(currentProduct.getAmount());
+                orderDesc.setAmount(currentProduct.getAmount());
 
                 Optional<ProductSize> size = productSizeRepository.findBySizeName(currentProduct.getSize());
                 if (size.isPresent()) {
@@ -138,27 +136,16 @@ public class FrontResource {
                 orderDesc.setFinalPrice(currentPrice);
 
                 totalPrice += currentPrice;
+                totalItem = totalItem + orderDesc.getAmount().intValue();
                 orderDescSet.add(orderDesc);
             }
         }
         newOrder.setOrderDescs(orderDescSet);
         newOrder.setTotalPrice(totalPrice);
+        newOrder.setTotalItem(totalItem);
 
-        Optional<Customer> isOld = customerRepository.findCustomerByCustomerNameAndAndTel(cart.getCustomerName(), cart.getCustomerPhone());
-        if (isOld.isPresent()) {
-            newOrder.setCustomer(isOld.get());
-        } else {
-            Customer newCustomer = new Customer();
-            newCustomer.setCustomerName(cart.getCustomerName());
-            newCustomer.setTel(cart.getCustomerPhone());
-
-            newCustomer.setProvince(cart.getProvince());
-            newCustomer.setDistrict(cart.getDistrict());
-            newCustomer.setWard(cart.getWard());
-
-            Customer savedCustomer = customerRepository.save(newCustomer);
-            newOrder.setCustomer(savedCustomer);
-        }
+        newOrder.setCustomerName(cart.getCustomerName());
+        newOrder.setCustomerPhone(cart.getCustomerPhone());
 
         ShopOrder saved = shopOrderRepository.save(newOrder);
         for (OrderDesc orderDesc: orderDescSet) {
@@ -231,7 +218,7 @@ public class FrontResource {
     @GetMapping("/district/p/{provinceId}")
     public ResponseEntity<List<District>> getProvince(@PathVariable Long provinceId) {
         log.debug("FRONT. REST request get list district by provinceId");
-        return ResponseEntity.ok().body(districtRepository.findAllByProvince_Id(provinceId));
+        return ResponseEntity.ok().body(districtRepository.findAllByProvinceId(provinceId));
     }
 
     @GetMapping("/ward/d/{districtId}")
