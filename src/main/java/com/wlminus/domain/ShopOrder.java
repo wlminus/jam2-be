@@ -82,11 +82,11 @@ public class ShopOrder implements Serializable {
     private Province province;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("shopOrders")
+    @JsonIgnoreProperties({"shopOrders", "province"})
     private District district;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("shopOrders")
+    @JsonIgnoreProperties({"shopOrders", "district"})
     private Ward ward;
 
 

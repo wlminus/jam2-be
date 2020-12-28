@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -105,6 +106,10 @@ public class FrontResource {
         newOrder.setDistrict(cart.getDistrict());
         newOrder.setWard(cart.getWard());
 
+        String code = "JM" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + Calendar.getInstance().get(Calendar.DATE) + System.currentTimeMillis() % 100 + new Random().nextInt(10);
+        System.out.println(code);
+
+        newOrder.setOrderCode(code);
         newOrder.setOrderStatus(1);
         //ShipType
         newOrder.setCustomerAddress(cart.getCustomerAddress());
@@ -127,12 +132,12 @@ public class FrontResource {
 
                 Optional<ProductSize> size = productSizeRepository.findBySizeName(currentProduct.getSize());
                 if (size.isPresent()) {
-                    Double sizeId = (double)size.get().getId();
-                    orderDesc.setOrderPrice(sizeId);
+                    orderDesc.setSize(size.get().getSizeName());
                 } else {
-                    orderDesc.setOrderPrice(-1D);
+                    orderDesc.setSize("Check Lại");
                 }
-                double currentPrice = (double) (productToGetPrice.get().getFinalPrice() * currentProduct.getAmount());
+                orderDesc.setOrderPrice((double)productToGetPrice.get().getFinalPrice());
+                double currentPrice = (double)(productToGetPrice.get().getFinalPrice() * currentProduct.getAmount());
                 orderDesc.setFinalPrice(currentPrice);
 
                 totalPrice += currentPrice;

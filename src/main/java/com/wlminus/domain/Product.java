@@ -87,11 +87,11 @@ public class Product implements Serializable {
     @Column(name = "modified_date")
     private Long modifiedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("products")
     private Category category;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "product_media",
                joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),

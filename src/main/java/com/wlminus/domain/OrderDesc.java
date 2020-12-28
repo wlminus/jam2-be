@@ -1,4 +1,5 @@
 package com.wlminus.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -41,12 +42,13 @@ public class OrderDesc implements Serializable {
     @Column(name = "size", length = 200)
     private String size;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("shopOrders")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("orderDescs")
+    @JsonIgnore
     private ShopOrder shopOrder;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
