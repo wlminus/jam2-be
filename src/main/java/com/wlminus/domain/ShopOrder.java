@@ -73,19 +73,19 @@ public class ShopOrder implements Serializable {
     @Column(name = "process_date")
     private Long processDate;
 
-    @OneToMany(mappedBy = "shopOrder")
+    @OneToMany(mappedBy = "shopOrder", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<OrderDesc> orderDescs = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("shopOrders")
     private Province province;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"shopOrders", "province"})
     private District district;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"shopOrders", "district"})
     private Ward ward;
 

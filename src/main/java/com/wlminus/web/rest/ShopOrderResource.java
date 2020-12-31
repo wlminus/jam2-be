@@ -76,8 +76,8 @@ public class ShopOrderResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @GetMapping("/shop-orders/status/{status}")
-    public ResponseEntity<List<ShopOrder>> getAllShopOrders(Pageable pageable, @PathVariable String status) {
+    @GetMapping("/shop-orders/s/{status}")
+    public ResponseEntity<List<ShopOrder>> getOrdersByStatus(Pageable pageable, @PathVariable String status) {
         log.debug("REST request to get a page of ShopOrders");
         Page<ShopOrder> page = shopOrderRepository.findWithStatus(pageable, status);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -88,6 +88,30 @@ public class ShopOrderResource {
     public ResponseEntity<ShopOrder> getShopOrder(@PathVariable Long id) {
         log.debug("REST request to get ShopOrder : {}", id);
         Optional<ShopOrder> shopOrder = shopOrderRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(shopOrder);
+    }
+
+    @PutMapping("/shop-orders/process/{id}")
+    public ResponseEntity<ShopOrder> processOrder(@PathVariable Long id) {
+        log.debug("REST request to get ShopOrder : {}", id);
+        Optional<ShopOrder> shopOrder = shopOrderRepository.findById(id);
+        if (shopOrder.isPresent()) {
+            ShopOrder realData = shopOrder.get();
+            realData.setOrderStatus(2);
+            return ResponseEntity.ok(shopOrderRepository.save(realData));
+        }
+        return ResponseUtil.wrapOrNotFound(shopOrder);
+    }
+
+    @PutMapping("/shop-orders/deactive/{id}")
+    public ResponseEntity<ShopOrder> deactiveOrder(@PathVariable Long id) {
+        log.debug("REST request to deactive ShopOrder : {}", id);
+        Optional<ShopOrder> shopOrder = shopOrderRepository.findById(id);
+        if (shopOrder.isPresent()) {
+            ShopOrder realData = shopOrder.get();
+            realData.setOrderStatus(0);
+            return ResponseEntity.ok(shopOrderRepository.save(realData));
+        }
         return ResponseUtil.wrapOrNotFound(shopOrder);
     }
 
