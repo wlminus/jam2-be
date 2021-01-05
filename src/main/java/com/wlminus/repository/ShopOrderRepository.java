@@ -24,5 +24,5 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
 
     @Query(value = "select shoporder from ShopOrder shoporder left join fetch shoporder.orderDescs left join fetch shoporder.province left join fetch shoporder.district left join fetch shoporder.ward where shoporder.orderStatus = :status order by shoporder.createdDate asc",
     countQuery = "select count (distinct shoporder) from ShopOrder shoporder where shoporder.orderStatus = :status")
-    Page<ShopOrder> findWithStatus(Pageable pageable, @Param("status") String status);
+    Page<ShopOrder> findWithStatus(Pageable pageable, @Param("status") Integer status);
 }

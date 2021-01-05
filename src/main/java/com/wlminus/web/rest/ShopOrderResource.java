@@ -2,6 +2,7 @@ package com.wlminus.web.rest;
 
 import com.wlminus.domain.ShopOrder;
 import com.wlminus.repository.ShopOrderRepository;
+import com.wlminus.security.SecurityUtils;
 import com.wlminus.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -30,6 +31,12 @@ import java.util.Optional;
 @RequestMapping("/api")
 @Transactional
 public class ShopOrderResource {
+
+    private static class AccountResourceException extends RuntimeException {
+        private AccountResourceException(String message) {
+            super(message);
+        }
+    }
 
     private final Logger log = LoggerFactory.getLogger(ShopOrderResource.class);
 
@@ -76,8 +83,12 @@ public class ShopOrderResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    //Status
+    //1 = order
+    //2 = Process
+    //3 = cancel
     @GetMapping("/shop-orders/s/{status}")
-    public ResponseEntity<List<ShopOrder>> getOrdersByStatus(Pageable pageable, @PathVariable String status) {
+    public ResponseEntity<List<ShopOrder>> getOrdersByStatus(@PathVariable Integer status, Pageable pageable) {
         log.debug("REST request to get a page of ShopOrders");
         Page<ShopOrder> page = shopOrderRepository.findWithStatus(pageable, status);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -98,18 +109,26 @@ public class ShopOrderResource {
         if (shopOrder.isPresent()) {
             ShopOrder realData = shopOrder.get();
             realData.setOrderStatus(2);
+            realData.setProcessDate(System.currentTimeMillis());
+            String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
+            realData.setProcessBy(userLogin);
+
             return ResponseEntity.ok(shopOrderRepository.save(realData));
         }
         return ResponseUtil.wrapOrNotFound(shopOrder);
     }
 
-    @PutMapping("/shop-orders/deactive/{id}")
-    public ResponseEntity<ShopOrder> deactiveOrder(@PathVariable Long id) {
-        log.debug("REST request to deactive ShopOrder : {}", id);
+    @PutMapping("/shop-orders/cancel/{id}")
+    public ResponseEntity<ShopOrder> cancelOrder(@PathVariable Long id) {
+        log.debug("REST request to cancel ShopOrder : {}", id);
         Optional<ShopOrder> shopOrder = shopOrderRepository.findById(id);
         if (shopOrder.isPresent()) {
             ShopOrder realData = shopOrder.get();
-            realData.setOrderStatus(0);
+            realData.setOrderStatus(3);
+            realData.setProcessDate(System.currentTimeMillis());
+            String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
+            realData.setProcessBy(userLogin);
+
             return ResponseEntity.ok(shopOrderRepository.save(realData));
         }
         return ResponseUtil.wrapOrNotFound(shopOrder);
