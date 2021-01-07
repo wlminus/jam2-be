@@ -3,6 +3,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,6 +22,7 @@ import java.util.Set;
 @Entity
 @Table(name = "product")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@EntityListeners(AuditingEntityListener.class)
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,16 +81,20 @@ public class Product implements Serializable {
 
     @Size(max = 200)
     @Column(name = "created_by", length = 200)
+    @CreatedBy
     private String createdBy;
 
     @Column(name = "created_date")
+    @CreatedDate
     private Long createdDate;
 
     @Size(max = 200)
     @Column(name = "modified_by", length = 200)
+    @LastModifiedBy
     private String modifiedBy;
 
     @Column(name = "modified_date")
+    @LastModifiedDate
     private Long modifiedDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
