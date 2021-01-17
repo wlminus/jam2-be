@@ -18,7 +18,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
-    @Query(value = "select shoporder from ShopOrder shoporder left join fetch shoporder.orderDescs left join fetch shoporder.province left join fetch shoporder.district left join fetch shoporder.ward order by shoporder.createdDate asc",
+    @Query(value = "select shoporder from ShopOrder shoporder left join fetch shoporder.orderDescs left join fetch shoporder.province left join fetch shoporder.district left join fetch shoporder.ward",
     countQuery = "select count (distinct shoporder) from ShopOrder shoporder")
     Page<ShopOrder> findAllOrder(Pageable pageable);
 
