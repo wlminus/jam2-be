@@ -78,7 +78,7 @@ public class FrontResource {
     @GetMapping("/products/id/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         log.debug("FRONT. REST request to get Product by id : {}", id);
-        Optional<Product> product = productService.findOne(id);
+        Optional<Product> product = productRepository.findByIdAndIsValidIsTrue(id);
         return ResponseUtil.wrapOrNotFound(product);
     }
 

@@ -30,25 +30,27 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select product from Product product left join fetch product.media where product.id =:id")
     Optional<Product> findOneWithMedia(@Param("id") Long id);
 
-    @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.slug =:slug")
+    @Query("select product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.slug =:slug and product.isValid = true")
     Optional<Product> findOneBySlug(@Param("slug") String slug);
+
+    Optional<Product> findByIdAndIsValidIsTrue(Long id);
 
     @Query(value = "select distinct product from Product product left join fetch product.media",
         countQuery = "select count(distinct product) from Product product")
     Page<Product> findAllWithMedia(Pageable pageable);
 
-    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.category.slug = :catSlug",
-        countQuery = "select count(distinct product) from Product product where product.category.slug = :catSlug")
+    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.category.slug = :catSlug and product.isValid = true",
+        countQuery = "select count(distinct product) from Product product where product.category.slug = :catSlug and product.isValid = true")
     Page<Product> findAllByCategorySlug(@Param("catSlug") String catSlug, Pageable pageable);
 
-    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%",
-        countQuery = "select count(distinct product) from Product product where product.name like %:query% or product.slug like %:query% or product.productCode like %:query%")
+    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.productSizes left join fetch product.tags where product.isValid = true and (product.name like %:query% or product.slug like %:query% or product.productCode like %:query%)",
+        countQuery = "select count(distinct product) from Product product where product.isValid = true and (product.name like %:query% or product.slug like %:query% or product.productCode like %:query%)")
     Page<Product> searchProduct(@Param("query") String query, Pageable pageable);
 
     @Query(value = "select distinct product from Product product left join fetch product.media where product.isValid = true order by product.id desc")
     List<Product> findAllByIsValidIsTrue();
 
-    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.id in :arr")
+    @Query(value = "select distinct product from Product product left join fetch product.media left join fetch product.category where product.id in :arr and product.isValid = true")
     List<Product> findRelated(@Param("arr") List<Long> listID, Pageable pageable);
 
     long count();
